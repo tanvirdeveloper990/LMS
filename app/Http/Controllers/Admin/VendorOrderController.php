@@ -1,0 +1,352 @@
+<?php
+
+namespace App\Http\Controllers\Admin;
+
+use App\Http\Controllers\Controller;
+use App\Models\Order;
+use App\Models\OrderItem;
+use App\Models\Setting;
+use App\Models\Vendor;
+use App\Models\VendorWithdraw;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+
+class VendorOrderController extends Controller
+{
+   public function allOrders()
+    {
+        $vendorId = auth()->guard('vendor')->user()->id;
+
+        $orders = Order::whereHas('orderItems.product', function ($query) use ($vendorId) {
+            $query->where('vendor_id', $vendorId); // Filter products by vendor_id
+        })
+        ->with(['orderItems.product' => function ($q) use ($vendorId) {
+            $q->where('vendor_id', $vendorId); // Filter the product within the 'orderItems'
+        }])
+        ->latest() // Order by the most recent first
+        ->get();
+
+       
+
+
+        return view('vendor.orders.all', compact('orders'));
+    }
+
+    public function show($id)
+    {
+        $order = Order::with('orderItems.product', 'user')->findOrFail($id);
+        $setting = Setting::first();
+        return view('vendor.orders.show', compact('order','setting'));
+    }
+   public function updateStatus(Request $request, Order $order)
+    {
+        $field = $request->field;
+        $value = $request->value;
+
+        if (in_array($field, ['status', 'payment_status'])) {
+
+            // যদি payment_status paid হয়
+            if ($field === 'payment_status' && $value === 'paid') {
+                $order->paid = $order->total; // total amount automatically paid হবে
+            }
+
+            $order->$field = $value;
+            $order->save();
+
+            return response()->json(['success' => true]);
+        }
+
+        return response()->json(['success' => false], 400);
+    }
+
+
+
+    public function pendingOrders()
+    {
+        $vendorId = auth()->guard('vendor')->user()->id;
+        
+        $orders = Order::whereHas('orderItems.product', function ($query) use ($vendorId) {
+            $query->where('vendor_id', $vendorId); // Filter products by vendor_id
+        })
+        ->with(['orderItems.product' => function ($q) use ($vendorId) {
+            $q->where('vendor_id', $vendorId); // Filter the product within the 'orderItems'
+        }])
+        ->where('status', 'pending')
+        ->latest() // Order by the most recent first
+        ->get();
+        
+    
+       
+        return view('vendor.orders.pending', compact('orders'));
+    }
+
+    public function processingOrders()
+    {
+        $vendorId = auth()->guard('vendor')->user()->id;
+
+        $orders = Order::whereHas('orderItems.product', function ($query) use ($vendorId) {
+            $query->where('vendor_id', $vendorId); // Filter products by vendor_id
+        })
+        ->with(['orderItems.product' => function ($q) use ($vendorId) {
+            $q->where('vendor_id', $vendorId); // Filter the product within the 'orderItems'
+        }])
+        ->where('status', 'processing')
+        ->latest() // Order by the most recent first
+        ->get();
+    
+      
+        
+        return view('vendor.orders.processing', compact('orders'));
+    }
+
+    public function onTheWayOrders()
+    {
+        $vendorId = auth()->guard('vendor')->user()->id;
+
+        $orders = Order::whereHas('orderItems.product', function ($query) use ($vendorId) {
+            $query->where('vendor_id', $vendorId); // Filter products by vendor_id
+        })
+        ->with(['orderItems.product' => function ($q) use ($vendorId) {
+            $q->where('vendor_id', $vendorId); // Filter the product within the 'orderItems'
+        }])
+        ->where('status', 'on the way')
+        ->latest() // Order by the most recent first
+        ->get();
+           
+        return view('vendor.orders.on-the-way', compact('orders'));
+    }
+
+    public function holdOrders()
+    {
+
+        $vendorId = auth()->guard('vendor')->user()->id;
+
+        $orders = Order::whereHas('orderItems.product', function ($query) use ($vendorId) {
+            $query->where('vendor_id', $vendorId); // Filter products by vendor_id
+        })
+        ->with(['orderItems.product' => function ($q) use ($vendorId) {
+            $q->where('vendor_id', $vendorId); // Filter the product within the 'orderItems'
+        }])
+        ->where('status', 'on hold')
+        ->latest() // Order by the most recent first
+        ->get();
+        
+
+        
+        return view('vendor.orders.hold', compact('orders'));
+    }
+
+    public function courierOrders()
+    {
+
+        
+        $vendorId = auth()->guard('vendor')->user()->id;
+
+        $orders = Order::whereHas('orderItems.product', function ($query) use ($vendorId) {
+            $query->where('vendor_id', $vendorId); // Filter products by vendor_id
+        })
+        ->with(['orderItems.product' => function ($q) use ($vendorId) {
+            $q->where('vendor_id', $vendorId); // Filter the product within the 'orderItems'
+        }])
+        ->where('status', 'courier')
+        ->latest() // Order by the most recent first
+        ->get();
+
+        
+        return view('vendor.orders.courier', compact('orders'));
+    }
+
+    public function completeOrders()
+    {
+        
+        $vendorId = auth()->guard('vendor')->user()->id;
+
+        $orders = Order::whereHas('orderItems.product', function ($query) use ($vendorId) {
+            $query->where('vendor_id', $vendorId); // Filter products by vendor_id
+        })
+        ->with(['orderItems.product' => function ($q) use ($vendorId) {
+            $q->where('vendor_id', $vendorId); // Filter the product within the 'orderItems'
+        }])
+        ->where('status', 'completed')
+        ->latest() // Order by the most recent first
+        ->get();
+
+        
+        return view('vendor.orders.complete', compact('orders'));
+    }
+
+    public function cancelledOrders()
+    {
+         
+        $vendorId = auth()->guard('vendor')->user()->id;
+
+        $orders = Order::whereHas('orderItems.product', function ($query) use ($vendorId) {
+            $query->where('vendor_id', $vendorId); // Filter products by vendor_id
+        })
+        ->with(['orderItems.product' => function ($q) use ($vendorId) {
+            $q->where('vendor_id', $vendorId); // Filter the product within the 'orderItems'
+        }])
+        ->where('status', 'cancelled')
+        ->latest() // Order by the most recent first
+        ->get();
+        return view('vendor.orders.cancelled', compact('orders'));
+    }
+
+    // Revenue
+    public function revenue()
+    {
+       $vendorId = Auth::guard('vendor')->id();
+
+        // Fetch orders with vendor-specific order items
+        $orders = Order::whereHas('orderItems.product', function($q) use ($vendorId) {
+            $q->where('vendor_id', $vendorId);
+        })->with(['orderItems' => function($q) use ($vendorId) {
+            $q->whereHas('product', fn($p) => $p->where('vendor_id', $vendorId))
+            ->with('product:id,name,vendor_id');
+        }])->get();
+
+        // Calculate balance (only paid orders)
+        $balance = 0;
+        foreach($orders as $order) {
+            if($order->payment_status === 'paid'){
+                foreach($order->orderItems as $item){
+                    $balance += $item->quantity * $item->price;
+                }
+            }
+        }
+
+        $withdraw = VendorWithdraw::where('vendor_id', Auth::guard('vendor')->user()->id)->sum('payable_amount');
+
+        // Get vendor commission percentage
+        $vendorCommissionPercent = Setting::first()->vendor_commission ?? 0;
+
+        // Calculate commission amount
+        $commissionAmount = ($balance * $vendorCommissionPercent) / 100;
+
+        // Deduct withdrawal + commission from balance
+        $balance = $balance - $withdraw - $commissionAmount;
+
+        // $balance = $balance - $withdraw;
+
+        return view('vendor.orders.revenue', compact('orders','balance'));
+
+    }
+
+    // withdraw
+    public function withdraw()
+    {
+        $data = VendorWithdraw::where('vendor_id', Auth::guard('vendor')->user()->id)->get();
+        return view('vendor.withdraw', compact('data'));
+    }
+    public function showWithdrawPage()
+    {
+        
+        $vendorId = Auth::guard('vendor')->id();
+
+        // Fetch orders with vendor-specific order items
+        $orders = Order::whereHas('orderItems.product', function($q) use ($vendorId) {
+            $q->where('vendor_id', $vendorId);
+        })->with(['orderItems' => function($q) use ($vendorId) {
+            $q->whereHas('product', fn($p) => $p->where('vendor_id', $vendorId))
+            ->with('product:id,name,vendor_id');
+        }])->get();
+
+        // Calculate balance (only paid orders)
+        $balance = 0;
+        foreach($orders as $order) {
+            if($order->payment_status === 'paid'){
+                foreach($order->orderItems as $item){
+                    $balance += $item->quantity * $item->price;
+                }
+            }
+        }
+
+        $withdraw = VendorWithdraw::where('vendor_id', Auth::guard('vendor')->user()->id)->sum('payable_amount');
+
+         // Get vendor commission percentage
+        $vendorCommissionPercent = Setting::first()->vendor_commission ?? 0;
+
+        // Calculate commission amount
+        $commissionAmount = ($balance * $vendorCommissionPercent) / 100;
+
+        // Deduct withdrawal + commission from balance
+        $balance = $balance - $withdraw - $commissionAmount;
+
+        
+        // $balance = $balance - $withdraw;
+        $commissions = Setting::first();
+        return view('vendor.withdraw-request',compact('balance','commissions'));
+    }
+
+    public function storeWithdraw(Request $request)
+    {
+        $request->validate([
+            'request_amount' => 'required|numeric|min:1',
+            'payable_amount' => 'required|numeric|min:1',
+            'commission' => 'required|numeric|min:1',
+            'payment_method' => 'required|string',
+            'payment_info' => 'required|string',
+        ]);
+
+        // Store the withdrawal request
+        VendorWithdraw::create([
+            'vendor_id' => Auth::guard('vendor')->user()->id,
+            'request_amount' => $request->request_amount,
+            'payable_amount' => $request->payable_amount,
+            'commission' => $request->commission,
+            'payment_method' => $request->payment_method,
+            'payment_info' => $request->payment_info,
+            'status' => 'pending', // Default status is 'pending'
+        ]);
+
+        return redirect()->route('vendor.withdrawal')->with('success', 'Withdrawal request submitted successfully.');
+    }
+
+
+
+   public function vendor_order_report(Request $request)
+    {
+        // Vendor list (filter er jonno)
+        $vendors = Vendor::all();
+
+        // Base query
+        $ordersQuery = OrderItem::with(['order', 'order.user', 'product'])
+            ->whereHas('order', function ($query) {
+                $query->where('status', 'completed');
+            });
+
+        // Vendor Filter
+        if ($request->vendor_id) {
+            $ordersQuery->whereHas('product', function ($query) use ($request) {
+                $query->where('vendor_id', $request->vendor_id);
+            });
+        }
+
+        // Date Filter
+        if ($request->start_date && $request->end_date) {
+            $ordersQuery->whereBetween('updated_at', [$request->start_date, $request->end_date]);
+        }
+
+        // Clone for totals
+        $allOrders = (clone $ordersQuery)->get();
+
+        // Total Purchase (Product purchase_price × qty)
+        $total_purchase = $allOrders->sum(function ($item) {
+            return ($item->product->purchase_price ?? 0) * $item->quantity;
+        });
+
+        // Total quantity
+        $total_item = $allOrders->sum('quantity');
+
+        // Total Sales (selling price × qty)
+        $total_sales = $allOrders->sum(function ($item) {
+            return ($item->price ?? 0) * $item->quantity;
+        });
+
+        // Pagination
+        $orders = $ordersQuery->paginate(10);
+
+        return view('vendor.reports.vendor-order', compact('vendors', 'orders', 'total_purchase', 'total_item', 'total_sales' ));
+    }
+
+}

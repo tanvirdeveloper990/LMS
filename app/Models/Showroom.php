@@ -1,0 +1,15 @@
+<?php
+
+namespace App\Models;
+
+use Illuminate\Database\Eloquent\Model;
+
+class Showroom extends Model
+{
+    protected $guarded = [];
+
+
+    protected $casts = [
+        'gallery_images' => 'array',
+    ];
+}
