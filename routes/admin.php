@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admin\AboutController;
 use App\Http\Controllers\Admin\AboutUsController;
 use App\Http\Controllers\Admin\AdminProfileController;
 use App\Http\Controllers\Admin\AffiliatesController;
@@ -37,10 +38,13 @@ use App\Http\Controllers\Admin\SubSubCategoryController;
 use App\Http\Controllers\Admin\TeamController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Admin\CustomerController;
+use App\Http\Controllers\Admin\EbookLibraryController;
+use App\Http\Controllers\Admin\FaqController;
 use App\Http\Controllers\Admin\ShowroomController;
 use App\Http\Controllers\Admin\VendorsController;
 use App\Http\Controllers\Admin\WebController;
 use App\Http\Controllers\ShipingController;
+use App\Models\EbookLibrary;
 use Illuminate\Support\Facades\Route;
 // Super Admin Auth
 Route::get('/admin/login', [LoginController::class, 'showLoginForm'])->name('admin.login.form');
@@ -250,6 +254,11 @@ Route::prefix('admin')
         Route::post('levels-withdrawal/{id}/status', [LevelSystemWithdrawalController::class, 'updateStatus'])->name('levels-withdrawal.updateStatus');
 
 
+
+
+        Route::resource('abouts',AboutController::class);
+        Route::resource('ebook-library',EbookLibraryController::class);
+        Route::resource('faqs',FaqController::class);
        
 
     });

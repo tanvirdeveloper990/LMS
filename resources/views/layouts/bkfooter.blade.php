@@ -1,63 +1,154 @@
-<!-- Footer -->
-<footer id="footer">
+<footer class="site-footer">
     <div class="container">
-        <div class="row text-center text-md-start">
-            <div class="col-md-4 mb-3">
-                @if($setting->footer_logo)
-                <img src="{{ Storage::url($setting->footer_logo) }}" alt="{{ $setting->title }}">
-                @else
-                Logo
+
+        <!-- Company Info & Social — visible only on mobile, centered -->
+        <div class="d-lg-none mb-5 text-center">
+            <div class="footer-logo-box mx-auto mb-4">
+                <a href="/">
+                    <img src="{{ Storage::url($setting->footer_logo) }}"
+                        alt="{{ $setting->company_name }}">
+                </a>
+            </div>
+            <h4 class="social-title">Follow Us</h4>
+            <div class="social-icons justify-content-center">
+                @if($setting->facebook)
+                <a href="{{ $setting->facebook }}" class="social-facebook" aria-label="Facebook"><i
+                        class="fab fa-facebook-f"></i></a>
                 @endif
-                <p>{{ $setting->address }}</p>
+                @if($setting->youtube)
+                <a href="https://youtube.com/shorts/G2LlA4t3icg?si=J5Z4dHo5z44JeqDZ" class="social-youtube"
+                    aria-label="YouTube"><i class="fab fa-youtube"></i></a>
+                @endif
+                @if($setting->instagram)
+                <a href="https://www.instagram.com/multibrand24/" class="social-instagram" aria-label="Instagram"><i
+                        class="fab fa-instagram"></i></a>
+                @endif
+                @if($setting->tiktok)
+                <a href="https://www.tiktok.com" class="social-tiktok" aria-label="TikTok"><i
+                        class="fab fa-tiktok"></i></a>
+                @endif
             </div>
-            <div class="col-md-4 mb-3">
-                <h5>Quick Links</h5>
-                <ul class="list-unstyled">
-                    <li><a href="{{ route('products') }}">All Products</a></li>
-                    <li><a href="{{ route('reviews') }}">Reviews</a></li>
-                    <li><a href="{{ route('contacts') }}">Contacts</a></li>
-                    <li><a href="{{ route('affiliate.register') }}">Affiliate</a></li>
-                    <li><a href="{{ route('track.order') }}">Track Order</a></li>
-                </ul>
-            </div>
-            <div class="col-md-4 mb-3">
-                <h5>Contact Us</h5>
-                <p>Email: {{ $setting->email_one }}</p>
-                <p>Phone: {{ $setting->phone_one }}</p>
-                <div>
-                    <a href="{{ $setting->faceboook }}"><img src="https://img.icons8.com/color/48/000000/facebook.png" width="24"></a>
-                    <a href="{{ $setting->twitter }}"><img src="https://img.icons8.com/color/48/000000/twitter.png" width="24"></a>
-                    <a href="{{ $setting->instagram }}"><img src="https://img.icons8.com/color/48/000000/instagram-new.png" width="24"></a>
+        </div>
+
+        <div class="row gy-5">
+
+            <!-- Company Info — desktop only -->
+            <div class="col-lg-2 d-none d-lg-block">
+                <div class="footer-logo-box mb-4">
+                    <a href="/">
+                        <img src="{{ Storage::url($setting->footer_logo) }}"
+                            alt="{{ $setting->company_name }}">
+                    </a>
+                </div>
+                <h4 class="social-title">Follow Us</h4>
+                <div class="social-icons">
+                    @if($setting->facebook)
+                    <a href="{{ $setting->facebook }}" class="social-facebook" aria-label="Facebook"><i
+                            class="fab fa-facebook-f"></i></a>
+                    @endif
+                    @if($setting->youtube)
+                    <a href="https://youtube.com/shorts/G2LlA4t3icg?si=J5Z4dHo5z44JeqDZ" class="social-youtube"
+                        aria-label="YouTube"><i class="fab fa-youtube"></i></a>
+                    @endif
+                    @if($setting->instagram)
+                    <a href="https://www.instagram.com/multibrand24/" class="social-instagram"
+                        aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+                    @endif
+                    @if($setting->tiktok)
+                    <a href="https://www.tiktok.com" class="social-tiktok" aria-label="TikTok"><i
+                            class="fab fa-tiktok"></i></a>
+                    @endif
                 </div>
             </div>
+
+            <!-- Top Categories -->
+            @php
+            $topCategories = \App\Models\Category::latest()->take(5)->get();
+            @endphp
+            <div class="col-6 col-lg-2 d-none d-lg-block text-center text-md-start">
+                <h3 class="footer-heading">Top Categories</h3>
+                <ul class="footer-links">
+                    @forelse($topCategories as $category)
+                    <li><a href="{{ route('products', ['category' => $category->id]) }}"><i
+                                class="fas fa-angle-right"></i><span>{{$category->name}}</span></a></li>
+                    @empty
+                    <li><a href="#"><i
+                                class="fas fa-angle-right"></i><span>No categories available</span></a></li>
+                    @endforelse
+
+                </ul>
+            </div>
+
+            <!-- Quick Navigation -->
+            <div class="col-6 col-lg-2 text-center text-md-start">
+                <h3 class="footer-heading">Quick Navigation</h3>
+                <ul class="footer-links">
+                    <li><a href="{{ route('about-us') }}"><i class="fas fa-angle-right"></i><span>About
+                                Us</span></a></li>
+                    <li><a href="{{ route('how.to.buy') }}"><i class="fas fa-angle-right"></i><span>How to
+                                Buy</span></a></li>
+                    <li><a href="{{ route('reviews') }}"><i class="fas fa-angle-right"></i><span>Customer
+                                Reviews</span></a></li>
+                    <li><a href="{{ url('complaint') }}"><i class="fas fa-angle-right"></i><span>Submit a
+                                Complaint</span></a></li>
+                    <li><a href="{{ route('contacts') }}"><i class="fas fa-angle-right"></i><span>Contact
+                                Us</span></a></li>
+                </ul>
+            </div>
+
+            <!-- Legal & Policy -->
+            <div class="col-6 col-lg-2 text-start">
+                <h3 class="footer-heading">Legal &amp; Policy</h3>
+                <ul class="footer-links">
+                    <li><a href="{{ route('delivery-policy') }}"><i
+                                class="fas fa-angle-right"></i><span>Delivery Policy</span></a></li>
+                    <li><a href="{{ route('return-policy') }}"><i
+                                class="fas fa-angle-right"></i><span>Return Policy</span></a></li>
+                    <li><a href="{{ route('refund-policy') }}"><i
+                                class="fas fa-angle-right"></i><span>Refund Policy</span></a></li>
+                    <li><a href="{{ route('warranty-policy') }}"><i
+                                class="fas fa-angle-right"></i><span>Warranty Policy</span></a></li>
+                    <li><a href="{{ route('privacy-policy') }}"><i
+                                class="fas fa-angle-right"></i><span>Privacy Policy</span></a></li>
+                </ul>
+            </div>
+
+            <!-- Contact Information -->
+            <div class="col-6 col-lg-4 text-center text-lg-start footer-contact-col">
+                <h3 class="footer-heading">Contact Information</h3>
+
+                <div class="contact-item">
+                    <div class="contact-icon phone"><i class="fas fa-phone"></i></div>
+                    <div>
+                        <p class="label">Number:</p>
+                        <a href="tel:{{ $setting->phone_one }}">{{ $setting->phone_one }}</a>
+                    </div>
+                </div>
+
+                <div class="contact-item">
+                    <div class="contact-icon mail"><i class="fas fa-envelope"></i></div>
+                    <div>
+                        <p class="label">Email:</p>
+                        <a href="mailto:{{ $setting->email_one }}">{{ $setting->email_one }}</a>
+                    </div>
+                </div>
+
+                <div class="contact-item">
+                    <div class="contact-icon map"><i class="fas fa-location-dot"></i></div>
+                    <div>
+                        <p class="label">Address:</p>
+                        <p class="value mb-0">{{ $setting->address }}</p>
+                    </div>
+                </div>
+            </div>
+
         </div>
-        <hr class="bg-secondary">
-        <p class="text-center mb-0">{{ $setting->copyright }}</p>
+
+        <div class="footer-divider"></div>
+
+        <div class="footer-bottom">
+            <p class="mb-0">Copyright © {{date('Y')}} <span>{{ $setting->copyright }}</span>. All rights reserved.</p>
+        </div>
+
     </div>
 </footer>
-
-<!-- Bottom Navbar -->
-<nav class="mobile-bottom-nav d-flex justify-content-around align-items-center">
-    <a href="javascript:void" class="nav-item" onclick="toggleSidebar()">
-        <i class="fas fa-bars"></i>
-        <span>Category</span>
-    </a>
-    <a href="#" class="nav-item">
-        <i class="fas fa-comment-alt"></i>
-        <span>Message</span>
-    </a>
-    <a href="{{ route('index') }}" class="nav-item active">
-        <div class="circle-icon">
-            <i class="fas fa-home"></i>
-            <span>Home</span>
-        </div>
-    </a>
-    <a href="{{ route('checkout') }}" class="nav-item">
-        <i class="fas fa-shopping-cart"></i>
-        <span class="fcart">0</span>
-    </a>
-    <a href="{{ route('login') }}" class="nav-item">
-        <i class="fas fa-user"></i>
-        <span>Login</span>
-    </a>
-</nav>

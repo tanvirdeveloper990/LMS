@@ -19,15 +19,20 @@ $tagmanager = \App\Models\TagManager::first();
     <title>@yield('title')</title>
     <link rel="icon" type="image/png" href="{{ $setting->favicon ? Storage::url($setting->favicon) : asset('/assets/img/null.png') }}">
 
+    <!-- Google Fonts (Bangla) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;500;600;700&family=Noto+Sans+Bengali:wght@400;500;600;700&display=swap"
+    rel="stylesheet">
+
+  <!-- Bootstrap 5 -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <!-- Bootstrap Icons -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
+
         
    
-
-
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
-    <link
-        href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&family=Inter:wght@400;500;600&display=swap"
-        rel="stylesheet">
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
     <!-- ✅ Slick Carousel CSS -->
@@ -42,7 +47,7 @@ $tagmanager = \App\Models\TagManager::first();
 
 
 
-    <style>
+<style>
         .search-results-dropdown {
             position: absolute;
             top: 100%;
@@ -62,77 +67,76 @@ $tagmanager = \App\Models\TagManager::first();
         }
 
        /* ===== Mobile Tabbar (Bootstrap 5 version) — FIXED ===== */
-    .mobile-tabbar {
-        position: fixed;
-        bottom: 0;
-        left: 0;
-        right: 0;
-        background: #fff;
-        border-top: 1px solid #e5e7eb;
-        box-shadow: 0 -4px 12px rgba(0,0,0,0.08);
-        z-index: 1040;
-        /* ✅ iPhone home-indicator area-র জন্য safe padding */
-        padding-bottom: env(safe-area-inset-bottom, 0);
-    }
-    .mobile-tabbar .tabbar-inner {
-        max-width: 1320px;
-        margin: 0 auto;
-        padding: 0 .5rem;
-        /* ✅ height fix — flex shrink আটকানো */
-        height: 64px;
-    }
-    .mobile-tabbar-link {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-        flex: 1;
-        height: 64px;
-        text-decoration: none;
-        transition: background-color .2s ease;
-        cursor: pointer;
-        /* ✅ shrink হওয়া বন্ধ */
-        flex-shrink: 0;
+        .mobile-tabbar {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: #fff;
+            border-top: 1px solid #e5e7eb;
+            box-shadow: 0 -4px 12px rgba(0,0,0,0.08);
+            z-index: 1040;
+            /* ✅ iPhone home-indicator area-র জন্য safe padding */
+            padding-bottom: env(safe-area-inset-bottom, 0);
+        }
+        .mobile-tabbar .tabbar-inner {
+            max-width: 1320px;
+            margin: 0 auto;
+            padding: 0 .5rem;
+            /* ✅ height fix — flex shrink আটকানো */
+            height: 64px;
+        }
+        .mobile-tabbar-link {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            flex: 1;
+            height: 64px;
+            text-decoration: none;
+            transition: background-color .2s ease;
+            cursor: pointer;
+            /* ✅ shrink হওয়া বন্ধ */
+            flex-shrink: 0;
+        }
+
+        /* ✅ সবচেয়ে গুরুত্বপূর্ণ ফিক্স — body/main-এর নিচে tabbar এর সমান জায়গা রাখা,
+        যাতে content tabbar-এর নিচে চাপা না পড়ে এবং tabbar squished না দেখায় */
+        body {
+            padding-bottom: 76px;
+        }
+        @media (min-width: 992px) {
+            body {
+                padding-bottom: 0;
+            }
+        }
+
+          .mobile-tabbar .tabbar-inner {
+    padding: 0 4px;
     }
 
-    /* ✅ সবচেয়ে গুরুত্বপূর্ণ ফিক্স — body/main-এর নিচে tabbar এর সমান জায়গা রাখা,
-    যাতে content tabbar-এর নিচে চাপা না পড়ে এবং tabbar squished না দেখায় */
-    body {
-        padding-bottom: 76px;
+    .mobile-tabbar-link {
+        flex: 1;
+        min-width: 0;
     }
-    @media (min-width: 992px) {
-        body {
-            padding-bottom: 0;
+
+    .mobile-tabbar-link i {
+        font-size: 1.05rem;
+    }
+
+    .mobile-tabbar-link span {
+        font-size: .62rem;
+        white-space: nowrap;
+    }
+
+    @media (max-width: 360px) {
+        .mobile-tabbar-link span {
+            font-size: .58rem;
         }
     }
 </style>
 
 
-<style>
-    .mobile-tabbar .tabbar-inner {
-    padding: 0 4px;
-}
-
-.mobile-tabbar-link {
-    flex: 1;
-    min-width: 0;
-}
-
-.mobile-tabbar-link i {
-    font-size: 1.05rem;
-}
-
-.mobile-tabbar-link span {
-    font-size: .62rem;
-    white-space: nowrap;
-}
-
-@media (max-width: 360px) {
-    .mobile-tabbar-link span {
-        font-size: .58rem;
-    }
-}
-</style>
 
     {{-- ✅ Google Tag Manager (Head) --}}
     <script>
@@ -1233,211 +1237,202 @@ $tagmanager = \App\Models\TagManager::first();
         });
     </script>
 
-    <!-- REVIEW SLIDER js -->
-    <script>
-        (function () {
-            const track = document.getElementById('slidesTrack');
-            const dotsEl = document.getElementById('sliderDots');
-            if (!track || !dotsEl) return;
-            const items = track.querySelectorAll('.slide-item');
-            let current = 0;
-            let perView = 3;
-            let autoTimer = null;
-
-            function getPerView() {
-                const w = window.innerWidth;
-                if (w <= 768) return 1;
-                if (w <= 992) return 2;
-                return 3;
-            }
-
-            function totalSlides() {
-                return Math.ceil(items.length / perView);
-            }
-
-            function buildDots() {
-                dotsEl.innerHTML = '';
-                for (let i = 0; i < totalSlides(); i++) {
-                    const s = document.createElement('span');
-                    if (i === current) s.classList.add('active');
-                    s.addEventListener('click', () => goTo(i));
-                    dotsEl.appendChild(s);
-                }
-            }
-
-            function goTo(idx) {
-                const total = totalSlides();
-                current = (idx + total) % total;
-                const itemWidthPercent = 100 / items.length;
-                const offset = current * perView * itemWidthPercent;
-                track.style.transform = `translateX(-${offset}%)`;
-                buildDots();
-            }
-
-            function init() {
-                perView = getPerView();
-                track.style.width = `${(items.length / perView) * 100}%`;
-                items.forEach(item => {
-                    item.style.flex = `0 0 ${100 / items.length}%`;
-                });
-                current = 0;
-                track.style.transform = 'translateX(0)';
-                buildDots();
-                startAuto();
-            }
-
-            function startAuto() {
-                clearInterval(autoTimer);
-                autoTimer = setInterval(() => goTo(current + 1), 4000);
-            }
-
-            window.addEventListener('resize', init);
-            init();
-        })();
-    </script>
+   
 
 
-<script>
 
-    let currentCategoryType = null;
-    let currentCategoryId = null;
-    let selectedSizes = [];
+  <!-- Custom JS -->
+  <script src="{{asset('assets/js/main.js')}}"></script>
 
-    function openSizeMenu(el) {
-        currentCategoryType = el.dataset.type;
-        currentCategoryId   = el.dataset.id;
-        selectedSizes = [];
+  <script>
+    (function () {
+      const tabs = document.querySelectorAll('#c7Tabs .c7-tab-btn');
+      const cards = document.querySelectorAll('#c7Track .c7-card');
+      const track = document.getElementById('c7Track');
+      const arrowL = document.getElementById('c7ArrowLeft');
+      const arrowR = document.getElementById('c7ArrowRight');
 
-        document.getElementById('sizeMenuCategoryName').textContent = el.dataset.name.toUpperCase();
-        document.getElementById('sizeMenuOverlay').classList.add('active');
-        document.getElementById('sizeMenuPanel').classList.add('active');
-        document.body.style.overflow = 'hidden';
+      // Tab filter: All / 2026 / 2027 / 2028
+      tabs.forEach(tab => {
+        tab.addEventListener('click', () => {
+          tabs.forEach(t => t.classList.remove('active'));
+          tab.classList.add('active');
 
-        document.getElementById('sizeMenuBody').innerHTML =
-            '<p class="size-menu-placeholder">আপনার প্রয়োজনীয় পণ্য দেখতে সাইজ সিলেক্ট করুন</p>';
-
-        loadCategorySizes();
-    }
-
-    document.getElementById('sizeMenuClose').addEventListener('click', closeSizeMenu);
-    document.getElementById('sizeMenuOverlay').addEventListener('click', closeSizeMenu);
-
-    function closeSizeMenu() {
-        document.getElementById('sizeMenuOverlay').classList.remove('active');
-        document.getElementById('sizeMenuPanel').classList.remove('active');
-        document.body.style.overflow = '';
-    }
-
-    const csrfToken = document.querySelector('meta[name="csrf-token"]').content;
-
-    function loadCategorySizes() {
-        document.getElementById('sizeBtnGroup').innerHTML = '<span class="text-white-50 small">Loading sizes...</span>';
-
-        $.ajax({
-            url: "/category-sizes",
-            method: 'POST',
-            data: {
-                _token: csrfToken,
-                type: currentCategoryType,
-                id: currentCategoryId
-            },
-            success: function (sizes) {
-                renderSizeButtons(sizes);
-            },
-            error: function (xhr) {
-                console.error('Size load error:', xhr.status, xhr.responseText);
-                document.getElementById('sizeBtnGroup').innerHTML = '<span class="text-white-50 small">Could not load sizes.</span>';
-            }
+          const year = tab.dataset.year;
+          cards.forEach(card => {
+            const show = (year === 'all' || card.dataset.year === year);
+            card.style.display = show ? 'flex' : 'none';
+          });
+          track.scrollTo({ left: 0, behavior: 'smooth' });
         });
-    }
+      });
 
-    function renderSizeButtons(sizes) {
-        const wrap = document.getElementById('sizeBtnGroup');
+      // Carousel arrows
+      function cardScrollAmount() {
+        const first = track.querySelector('.c7-card');
+        if (!first) return 300;
+        const style = getComputedStyle(track);
+        const gap = parseInt(style.columnGap || style.gap || 20);
+        return first.getBoundingClientRect().width + gap;
+      }
 
-        if (!sizes.length) {
-            wrap.innerHTML = '<span class="text-white-50 small">No sized products in this category.</span>';
-            return;
-        }
+      arrowR.addEventListener('click', () => {
+        track.scrollBy({ left: cardScrollAmount(), behavior: 'smooth' });
+      });
+      arrowL.addEventListener('click', () => {
+        track.scrollBy({ left: -cardScrollAmount(), behavior: 'smooth' });
+      });
+    })();
+  </script>
 
-        let html = '';
-        sizes.forEach(s => {
-            html += `<button type="button" class="size-btn" data-size-id="${s.id}" onclick="toggleSize(this)">${s.name}</button>`;
-        });
-        html += `<button type="button" class="btn-view-products" id="viewProductsBtn" onclick="loadProductsBySelectedSizes()" disabled>
-                    <i class="bi bi-search"></i> View Products
-                </button>`;
+  <!-- faq js -->
+  <script>
+    document.querySelectorAll('.faq-item-header').forEach(function (btn) {
+      btn.addEventListener('click', function () {
+        var currentItem = btn.closest('.faq-item');
+        var isAlreadyActive = currentItem.classList.contains('active');
 
-        wrap.innerHTML = html;
-    }
-
-    function toggleSize(btn) {
-        const sizeId = btn.dataset.sizeId;
-        btn.classList.toggle('active');
-
-        if (selectedSizes.includes(sizeId)) {
-            selectedSizes = selectedSizes.filter(id => id !== sizeId);
-        } else {
-            selectedSizes.push(sizeId);
-        }
-
-        const viewBtn = document.getElementById('viewProductsBtn');
-        if (viewBtn) viewBtn.disabled = selectedSizes.length === 0;
-    }
-
-    // ✅ Selected size(s) সহ সরাসরি products page এ নিয়ে যাবে
-    function loadProductsBySelectedSizes() {
-        const params = new URLSearchParams();
-
-        if (currentCategoryType === 'sub_category') {
-            params.append('sub_category', currentCategoryId);
-        } else {
-            params.append('category', currentCategoryId);
-        }
-
-        selectedSizes.forEach(sizeId => {
-            params.append('sizes[]', sizeId);
+        // shob item theke 'active' class remove kore dao (shob bondo)
+        document.querySelectorAll('.faq-item').forEach(function (item) {
+          item.classList.remove('active');
         });
 
-        window.location.href = "{{ route('products') }}?" + params.toString();
-    }
-
-</script>
-
-
-<script>
-// ── ✅ Marquee-কে সত্যিকারের infinite বানানো — item কম থাকলেও track যথেষ্ট চওড়া না হওয়া পর্যন্ত clone করে ──
-function ensureInfiniteMarquee(trackId, wrapSelector) {
-    const track = document.getElementById(trackId);
-    if (!track) return;
-
-    const wrap = track.closest(wrapSelector);
-    if (!wrap) return;
-
-    const originalHTML = track.innerHTML;
-
-    function fillTrack() {
-        track.innerHTML = originalHTML;
-        let safety = 0;
-        while (track.scrollWidth < wrap.clientWidth * 2 && safety < 20) {
-            track.innerHTML += originalHTML;
-            safety++;
+        // jodi already open na thake, tahole eita open koro
+        // (already open thakle, upore remove kora hoyeche mane eta o bondo thakbe -> toggle effect)
+        if (!isAlreadyActive) {
+          currentItem.classList.add('active');
         }
-    }
-
-    fillTrack();
-
-    let resizeTimer;
-    window.addEventListener('resize', function () {
-        clearTimeout(resizeTimer);
-        resizeTimer = setTimeout(fillTrack, 250);
+      });
     });
-}
+  </script>
 
-document.addEventListener('DOMContentLoaded', function () {
-    ensureInfiniteMarquee('brandsTrack', '.brands-marquee-outer');
-    ensureInfiniteMarquee('showroomMarqueeTrack', '.showroom-marquee-wrap');
-});
-</script>
+
+  <!-- product slider js -->
+  <script>
+    (function () {
+      const track = document.getElementById('dealsTrack');
+      if (!track) return;
+
+      const originalSlides = Array.from(track.children);
+      const slideCount = originalSlides.length;
+
+      // Infinite loop er jonno original slides gulo clone kore abar shesh e jure dicchi
+      originalSlides.forEach(slide => {
+        const clone = slide.cloneNode(true);
+        track.appendChild(clone);
+      });
+
+      let index = 0;
+      let slideWidth = 0;
+      let visibleCount = window.innerWidth >= 992 ? 4 : 2;
+      let autoSlideInterval;
+
+      function getSlideWidth() {
+        return track.children[0].getBoundingClientRect().width;
+      }
+
+      function goToSlide(i, animate = true) {
+        slideWidth = getSlideWidth();
+        track.style.transition = animate ? 'transform 0.6s ease' : 'none';
+        track.style.transform = `translateX(-${slideWidth * i}px)`;
+      }
+
+      function nextSlide() {
+        index++;
+        goToSlide(index);
+
+        // Jokhon original slides shesh hoye clone e chole jabe, tokhon nishobde
+        // abar 0 index e reset kore dibe (infinite loop feel dibar jonno)
+        if (index >= slideCount) {
+          setTimeout(() => {
+            index = 0;
+            goToSlide(index, false);
+          }, 600);
+        }
+      }
+
+      function startAutoSlide() {
+        autoSlideInterval = setInterval(nextSlide, 2500);
+      }
+
+      function stopAutoSlide() {
+        clearInterval(autoSlideInterval);
+      }
+
+      window.addEventListener('resize', () => {
+        goToSlide(index, false);
+      });
+
+      // Slider e mouse hover korle auto slide thamiye dibe, hover shore gele abar cholbe
+      track.parentElement.addEventListener('mouseenter', stopAutoSlide);
+      track.parentElement.addEventListener('mouseleave', startAutoSlide);
+
+      goToSlide(0, false);
+      startAutoSlide();
+    })();
+  </script>
+  <!--  -->
+  <script>
+    // review section er js
+    (function () {
+      const track = document.getElementById('slidesTrack');
+      const dotsEl = document.getElementById('sliderDots');
+      const items = track.querySelectorAll('.slide-item');
+      let current = 0;
+      let perView = 3;
+      let autoTimer = null;
+
+      function getPerView() {
+        const w = window.innerWidth;
+        if (w <= 768) return 1;
+        if (w <= 992) return 2;
+        return 3;
+      }
+
+      function totalSlides() {
+        return Math.ceil(items.length / perView);
+      }
+
+      function buildDots() {
+        dotsEl.innerHTML = '';
+        for (let i = 0; i < totalSlides(); i++) {
+          const s = document.createElement('span');
+          if (i === current) s.classList.add('active');
+          s.addEventListener('click', () => goTo(i));
+          dotsEl.appendChild(s);
+        }
+      }
+
+      function goTo(idx) {
+        const total = totalSlides();
+        current = (idx + total) % total;
+        const itemWidthPercent = 100 / items.length;
+        const offset = current * perView * itemWidthPercent;
+        track.style.transform = `translateX(-${offset}%)`;
+        buildDots();
+      }
+
+      function init() {
+        perView = getPerView();
+        track.style.width = `${(items.length / perView) * 100}%`;
+        items.forEach(item => {
+          item.style.flex = `0 0 ${100 / items.length}%`;
+        });
+        current = 0;
+        track.style.transform = 'translateX(0)';
+        buildDots();
+        startAuto();
+      }
+
+      function startAuto() {
+        clearInterval(autoTimer);
+        autoTimer = setInterval(() => goTo(current + 1), 4000);
+      }
+
+      window.addEventListener('resize', init);
+      init();
+    })();
+  </script>
 
 
 

@@ -4,481 +4,571 @@
 
 @section('content')
 
-<style>
-/* ── Product Card ─────────────────────────────────── */
-.product-card {
-    display: flex;
-    flex-direction: column;
-    background: #fff;
-    border-radius: 0.75rem;
-    border: 1px solid #f1f5f9;
-    box-shadow: 0 1px 4px rgba(0,0,0,0.06);
-    overflow: hidden;
-    transition: box-shadow 0.25s, transform 0.25s;
-    height: 100%;
-}
-.product-card:hover {
-    box-shadow: 0 8px 28px rgba(0,0,0,0.12);
-    transform: translateY(-2px);
-}
-.product-card__img-wrap {
-    position: relative;
-    overflow: hidden;
-    height: 220px;
-    flex-shrink: 0;
-    background: #fff;
-}
-@media (min-width: 768px) {
-    .product-card__img-wrap { height: 280px; }
-}
-.product-card__img-wrap img {
-    position: absolute;
-    inset: 0;
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    transition: transform 0.5s ease;
-}
-.product-card__img-primary   { transform: translateX(0); }
-.product-card__img-secondary { transform: translateX(100%); }
-.product-card:hover .product-card__img-primary   { transform: translateX(-100%); }
-.product-card:hover .product-card__img-secondary { transform: translateX(0); }
+<main>
 
-.product-card__badge {
-    position: absolute;
-    top: 8px; left: 8px;
-    background: #ef4444;
-    color: #fff;
-    font-size: 10px;
-    font-weight: 700;
-    padding: 2px 8px;
-    border-radius: 99px;
-    z-index: 10;
-}
-.product-card__body {
-    padding: 12px;
-    display: flex;
-    flex-direction: column;
-    flex-grow: 1;
-    border-top: 1px solid #f8fafc;
-}
-.product-card__title {
-    font-size: 0.8125rem;
-    font-weight: 600;
-    color: #1f2937;
-    line-height: 1.4;
-    display: -webkit-box;
-    -webkit-line-clamp: 2;
-    -webkit-box-orient: vertical;
-    overflow: hidden;
-    min-height: 36px;
-    margin-bottom: 8px;
-    transition: color 0.15s;
-}
-.product-card:hover .product-card__title { color: var(--color-primary, #EA4F0C); }
-.product-card__price-row {
-    display: flex;
-    align-items: center;
-    gap: 6px;
-    margin-bottom: 10px;
-    flex-wrap: wrap;
-}
-.product-card__price      { font-size: 1rem; font-weight: 800; color: #111827; }
-.product-card__price-old  { font-size: 0.75rem; color: #9ca3af; text-decoration: line-through; }
-.product-card__btn {
-    width: 100%;
-    background: var(--color-primary, #EA4F0C);
-    color: #fff;
-    border: none;
-    border-radius: 0.5rem;
-    padding: 8px 12px;
-    font-size: 0.75rem;
-    font-weight: 700;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 6px;
-    cursor: pointer;
-    transition: background 0.2s, transform 0.15s;
-    margin-top: auto;
-}
-.product-card__btn:hover {
-    background: #111827;
-    transform: scale(1.01);
-}
 
-/* ── Section Header ───────────────────────────────── */
-.section-header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    margin-bottom: 1.5rem;
-    position: relative;
-}
-.section-header::before {
-    content: '';
-    position: absolute;
-    top: 50%; left: 0; right: 0;
-    height: 1px;
-    background: #e5e7eb;
-    z-index: 0;
-}
-.section-header__title-wrap {
-    position: relative;
-    z-index: 1;
-    clip-path: polygon(8px 0%, 100% 0%, calc(100% - 8px) 100%, 0% 100%);
-    background: linear-gradient(135deg, #EA4F0C 0%, #F68E12 100%);
-    padding: 10px 28px;
-    box-shadow: 0 4px 14px rgba(234,79,12,0.3);
-}
-.section-header__title {
-    font-size: clamp(0.875rem, 2vw, 1.25rem);
-    font-weight: 900;
-    color: #fff;
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
-    font-style: italic;
-    white-space: nowrap;
-}
-.section-header__link {
-    position: relative;
-    z-index: 1;
-    background: var(--color-primary, #EA4F0C);
-    color: #fff;
-    font-size: 0.8125rem;
-    font-weight: 700;
-    padding: 8px 18px;
-    border-radius: 99px;
-    display: flex;
-    align-items: center;
-    gap: 6px;
-    transition: background 0.2s;
-    white-space: nowrap;
-}
-.section-header__link:hover { background: #111827; }
 
-/* ── Category Marquee ─────────────────────────────── */
-@keyframes marqueeScroll {
-    0%   { transform: translateX(0); }
-    100% { transform: translateX(-50%); }
-}
-.marquee-track { animation: marqueeScroll 22s linear infinite; }
-.marquee-track:hover { animation-play-state: paused; }
 
-/* ── Marquee Text ─────────────────────────────────── */
-@keyframes marqueeScrollText {
-    0%   { transform: translateX(0); }
-    100% { transform: translateX(-50%); }
-}
-.marquee-text-track { animation: marqueeScrollText 18s linear infinite; }
-.marquee-text-track:hover { animation-play-state: paused; }
 
-/* ── Review Card ──────────────────────────────────── */
-.review-card {
-    background: #fff;
-    border-radius: 1rem;
-    padding: 16px;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.06);
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
-    height: 100%;
-}
-</style>
+    <!-- ===================== BANNER SLIDER (custom, no external plugin) ===================== -->
+    <section class="banner-section">
+        <div class="container">
+            <div class="banner-slider" id="bannerSlider">
+                <div class="banner-track" id="bannerTrack">
 
-<main class="w-full bg-gray-50">
+                 @foreach($banner as $item)
+                    <div class="banner-slide"
+                        style="background-image:url('{{ Storage::url($item->image) }}')">
+                        
+                    </div>
+                 @endforeach   
 
-    {{-- ── Banner Slider ───────────────────────────── --}}
-    <section class="w-full mb-6">
-        <div class="banner-slider">
-            @foreach($banner as $item)
-            <div class="h-[160px] md:h-[420px] lg:h-[520px]">
-                <img class="w-full h-full object-cover" src="{{ Storage::url($item->image) }}" alt="{{ $item->title }}" />
+                </div>
+                <div class="banner-dots" id="bannerDots">
+                    <button class="active" data-index="0"></button>
+                    <button data-index="1"></button>
+                    <button data-index="2"></button>
+                </div>
             </div>
-            @endforeach
         </div>
     </section>
 
-    {{-- ── Marquee Text Strip ──────────────────────── --}}
-    @php
-    $marqueeItems = array_filter([
+   @php
+    $marqueeTexts = array_filter([
         $setting->scrolling_text_1 ?? null,
         $setting->scrolling_text_2 ?? null,
         $setting->scrolling_text_3 ?? null,
     ]);
-    if (empty($marqueeItems)) {
-        $marqueeItems = ['New Arrivals Just Dropped', '100% Authentic Products', 'Free Shipping Over 1500Tk'];
+
+    if (empty($marqueeTexts)) {
+        $marqueeTexts = [
+            'Free Delivery on Orders Over ৳2000',
+            'Cash on Delivery Available',
+            '7 Days Easy Return & Exchange',
+        ];
     }
-    $repeated       = array_merge($marqueeItems, $marqueeItems, $marqueeItems, $marqueeItems);
-    $textColor      = $setting->marquee_text_color      ?? '#ffffff';
-    $separatorColor = $setting->marquee_separator_color ?? '#f97316';
-    $speed          = $setting->marquee_speed           ?? '18s';
-    @endphp
-    <section class="overflow-hidden mb-8 mx-4 rounded-xl"
-        style="background-color: {{ $setting->marquee_bg_color ?? '#1e3a5f' }};">
-        <div class="py-4 px-4 overflow-hidden">
-            <div class="flex w-max marquee-text-track gap-8"
-                style="animation-duration: {{ $speed }};">
-                @foreach($repeated as $txt)
-                <span class="text-xs font-bold whitespace-nowrap uppercase tracking-widest"
-                    style="color: {{ $textColor }};">{{ $txt }}</span>
-                <span class="text-xs font-bold whitespace-nowrap select-none"
-                    style="color: {{ $separatorColor }};">✦</span>
-                @endforeach
+
+    $marqueeSpeed    = $setting->marquee_speed ?? '40s';
+    $marqueeTextColor = $setting->marquee_text_color ?? '#ffffff';
+    $marqueeSepColor  = $setting->marquee_separator_color ?? '#D4AF37';
+    $marqueeBgColor   = $setting->marquee_bg_color ?? '#1c1c1c';
+@endphp
+
+<style>
+    .notice-marquee {
+        background: {{ $marqueeBgColor }} !important;
+    }
+    .marquee-track {
+        animation-duration: {{ $marqueeSpeed }} !important;
+    }
+    .notice-marquee .marquee-item {
+        color: {{ $marqueeTextColor }} !important;
+    }
+    .notice-marquee .marquee-item i {
+        color: {{ $marqueeSepColor }} !important;
+    }
+    .notice-marquee .marquee-item::after {
+        background: {{ $marqueeSepColor }} !important;
+    }
+</style>
+
+<!-- ===================== NOTICE MARQUEE BAR ===================== -->
+<section class="notice-marquee">
+    <div class="marquee-track">
+        <div class="marquee-group">
+            @foreach($marqueeTexts as $text)
+            <span class="marquee-item">
+                <i class="bi bi-star-fill"></i> {{ $text }}
+            </span>
+            @endforeach
+        </div>
+        <div class="marquee-group" aria-hidden="true">
+            @foreach($marqueeTexts as $text)
+            <span class="marquee-item">
+                <i class="bi bi-star-fill"></i> {{ $text }}
+            </span>
+            @endforeach
+        </div>
+    </div>
+</section>
+
+<!-- ===================== new arrivals ===================== -->
+@php
+  $is_new = \App\Models\Product::where('is_new', 1)->where('status', 1)->latest()->get();
+@endphp
+
+  @if($is_new->count())
+    <section class="deals-section new-arrivals">
+        <div class="container">
+
+            <!-- Header -->
+            <div class="deals-header d-flex align-items-center justify-content-between">
+                <h2 class="deals-title">নতুন <span>পণ্য</span></h2>
+                <a href="{{ route('products', ['new' => 1]) }}" class="btn-see-all">আরও দেখুন</a>
             </div>
-        </div>
-    </section>
 
-    {{-- ── Popular Categories ──────────────────────── --}}
-    <section class="container mx-auto px-4 mb-12">
-        <div class="flex items-center gap-3 mb-6">
-            <div class="w-1 h-7 bg-primary rounded-full"></div>
-            <h2 class="text-xl md:text-2xl font-black text-gray-900 uppercase tracking-wide">
-                Popular <span class="text-primary">Categories</span>
-            </h2>
-        </div>
+            <!-- Product Slider -->
+            <div class="products-slider-wrap">
 
-        <div class="overflow-hidden relative">
-            <div class="flex w-max marquee-track gap-3">
-                @php $cats = array_merge($popularCategories->toArray(), $popularCategories->toArray()); @endphp
-                @foreach($cats as $category)
-                <a href="{{ route('products', ['category' => $category['id']]) }}"
-                    class="group flex-shrink-0 w-[140px] md:w-[200px] lg:w-[220px] block">
-                    <div class="relative overflow-hidden rounded-xl h-[160px] md:h-[220px] lg:h-[280px] w-full shadow-sm">
-                        @if($category['image'])
-                        <img src="{{ Storage::url($category['image']) }}" alt="{{ $category['name'] }}"
-                            class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
-                        @endif
-                        <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-black/10 to-transparent"></div>
-                        <div class="absolute bottom-3 left-3 right-3">
-                            <span class="text-white font-bold text-xs md:text-sm uppercase tracking-wide line-clamp-1">{{ $category['name'] }}</span>
-                        </div>
-                    </div>
-                </a>
-                @endforeach
-            </div>
-        </div>
-    </section>
+                <button class="slider-nav slider-prev" aria-label="Previous">
+                    <i class="bi bi-chevron-left"></i>
+                </button>
 
-    {{-- ── New Arrivals ────────────────────────────── --}}
-    @php $is_new = \App\Models\Product::where('is_new', 1)->where('status', 1)->latest()->get(); @endphp
-    @if($is_new->count())
-    <section class="container mx-auto px-4 mb-12">
-        <div class="section-header">
-            <div class="section-header__title-wrap">
-                <span class="section-header__title">{{ \App\Helpers\TranslateHelper::translate('New Arrivals') }}</span>
-            </div>
-            <a href="{{ route('products') }}" class="section-header__link">
-                {{ \App\Helpers\TranslateHelper::translate('See More') }}
-                <i class="fa-solid fa-arrow-right-long"></i>
-            </a>
-        </div>
+                <div class="products-slider">
 
-        <div class="vegetablesSlider">
-            @foreach($is_new as $item)
-            @php
-            $discount = ($item->regular_price > 0 && $item->sale_price < $item->regular_price)
-                ? round((($item->regular_price - $item->sale_price) / $item->regular_price) * 100) : 0;
-            @endphp
-            <div class="mx-1.5">
-                <div class="product-card group">
-                    <div class="product-card__img-wrap">
-                        <img src="{{ Storage::url($item->featured_image_1) }}"
-                            alt="{{ $item->name }}"
-                            class="product-card__img-primary"
-                            onerror="this.src='https://via.placeholder.com/400x400/f3f4f6/9ca3af?text=No+Image'" />
-                        @if($item->featured_image_2)
-                        <img src="{{ Storage::url($item->featured_image_2) }}"
-                            alt="{{ $item->name }}"
-                            class="product-card__img-secondary"
-                            onerror="this.src='https://via.placeholder.com/400x400/f3f4f6/9ca3af?text=No+Image'" />
-                        @else
-                        <img src="{{ Storage::url($item->featured_image_1) }}"
-                            alt="{{ $item->name }}"
-                            class="product-card__img-secondary" />
-                        @endif
-                        <span class="product-card__badge" style="background:#111;">NEW</span>
-                        @if($discount > 0)
-                        <span class="product-card__badge" style="left:auto;right:8px;background:#ef4444;">{{ $discount }}% OFF</span>
-                        @endif
-                    </div>
-                    <div class="product-card__body">
+                    <!-- Product Card 1 -->
+                    @foreach($is_new as $item)
+                    <div class="product-card">
                         <a href="{{ route('product.single', $item->slug) }}">
-                            <p class="product-card__title">{{ \App\Helpers\TranslateHelper::translate($item->name) }}</p>
-                        </a>
-                        <div class="product-card__price-row">
-                            <span class="product-card__price">{{ currency() }} {{ number_format($item->sale_price, 2) }}</span>
-                            @if($item->regular_price > $item->sale_price)
-                            <span class="product-card__price-old">{{ currency() }} {{ number_format($item->regular_price, 2) }}</span>
-                            @endif
-                        </div>
-                        <button type="button" class="product-card__btn orders-now"
-                            data-id="{{ $item->id }}" data-name="{{ $item->name }}"
-                            data-slug="{{ $item->slug }}" data-image="{{ Storage::url($item->featured_image_1) }}"
-                            data-price="{{ $item->sale_price }}"
-                            data-has-variant="{{ $item->variants->count() > 0 ? '1' : '0' }}">
-                            <i class="fas fa-shopping-cart text-xs"></i>
-                            {{ \App\Helpers\TranslateHelper::translate('Buy Now') }}
-                        </button>
-                    </div>
-                </div>
-            </div>
-            @endforeach
-        </div>
-    </section>
-    @endif
+                            {{-- Discount Badge --}}
 
-    {{-- ── Hero Banner / Blog CTA ──────────────────── --}}
-    <section class="container mx-auto px-4 mb-12">
-        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-center bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
-            <div class="flex flex-col items-center lg:items-start text-center lg:text-left p-8 lg:p-12 gap-5 order-2 lg:order-1">
-                <span class="text-xs font-bold uppercase tracking-widest text-primary bg-primary/10 px-3 py-1 rounded-full">Collection</span>
-                <h2 class="text-3xl sm:text-4xl lg:text-5xl font-black text-gray-900 leading-tight">
-                    {{ $setting->blogs_title }}
-                </h2>
-                <p class="text-base text-gray-500 leading-relaxed max-w-md">
-                    {{ $setting->blogs_description }}
-                </p>
-                <a href="{{ route('products') }}"
-                    class="inline-flex items-center gap-2 bg-primary hover:bg-gray-900 text-white font-bold py-3 px-8 rounded-full transition-all duration-300 shadow-md group">
-                    Shop Now
-                    <i class="fa-solid fa-arrow-right-long group-hover:translate-x-1 transition-transform"></i>
-                </a>
-            </div>
-            <div class="w-full h-[280px] sm:h-[380px] lg:h-[500px] overflow-hidden order-1 lg:order-2">
-                <img src="{{ Storage::url($setting->certificate) }}" alt="{{ $setting->blogs_title }}"
-                    class="w-full h-full object-cover hover:scale-105 transition-transform duration-700 ease-in-out" />
-            </div>
-        </div>
-    </section>
+                           @php
+                                $discount_amount = $item->regular_price - $item->sale_price;
+                                $discount_percentage = $item->regular_price > 0 
+                                    ? round(($discount_amount / $item->regular_price) * 100) 
+                                    : 0;
 
-    {{-- ── Category Product Sections ───────────────── --}}
-    @foreach($categories as $category)
-    @if($category->products->count() > 0)
-    <section class="container mx-auto px-4 mb-12">
-        <div class="section-header">
-            <div class="section-header__title-wrap">
-                <span class="section-header__title">{{ \App\Helpers\TranslateHelper::translate($category->name) }}</span>
-            </div>
-            <a href="{{ route('products', ['category' => $category->id]) }}" class="section-header__link">
-                {{ \App\Helpers\TranslateHelper::translate('See More') }}
-                <i class="fa-solid fa-arrow-right-long"></i>
-            </a>
-        </div>
+                                // ✅ Wishlist status check
+                                $isWishlisted = auth()->check()
+                                    ? auth()->user()->wishlists()->where('product_id', $item->id)->exists()
+                                    : false;
+                            @endphp
+                            <div class="product-img-wrap">
+                                @if($item->regular_price > $item->sale_price)
+                                <span class="discount-tag">-{{$discount_percentage}}%</span>
+                                @endif
 
-        <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 md:gap-5">
-            @foreach($category->products->take(4) as $item)
-            @php
-            $discount = ($item->regular_price > 0 && $item->sale_price < $item->regular_price)
-                ? round((($item->regular_price - $item->sale_price) / $item->regular_price) * 100) : 0;
-            @endphp
-            <div class="product-card group {{ $loop->index >= 2 ? 'hidden md:flex md:flex-col' : '' }}">
-                <div class="product-card__img-wrap">
-                    <img src="{{ Storage::url($item->featured_image_1) }}"
-                        alt="{{ $item->name }}"
-                        class="product-card__img-primary"
-                        onerror="this.src='https://via.placeholder.com/400x400/f3f4f6/9ca3af?text=No+Image'" />
-                    @if($item->featured_image_2)
-                    <img src="{{ Storage::url($item->featured_image_2) }}"
-                        alt="{{ $item->name }}"
-                        class="product-card__img-secondary"
-                        onerror="this.src='https://via.placeholder.com/400x400/f3f4f6/9ca3af?text=No+Image'" />
-                    @else
-                    <img src="{{ Storage::url($item->featured_image_1) }}"
-                        alt="{{ $item->name }}"
-                        class="product-card__img-secondary" />
-                    @endif
-                    @if($discount > 0)
-                    <span class="product-card__badge">{{ $discount }}% OFF</span>
-                    @endif
-                </div>
-                <div class="product-card__body">
-                    <a href="{{ route('product.single', $item->slug) }}">
-                        <p class="product-card__title">{{ \App\Helpers\TranslateHelper::translate($item->name) }}</p>
-                    </a>
-                    <div class="product-card__price-row">
-                        <span class="product-card__price">{{ currency() }} {{ number_format($item->sale_price, 2) }}</span>
-                        @if($item->regular_price > $item->sale_price)
-                        <span class="product-card__price-old">{{ currency() }} {{ number_format($item->regular_price, 2) }}</span>
-                        @endif
-                    </div>
-                    <button type="button" class="product-card__btn orders-now"
-                        data-id="{{ $item->id }}" data-name="{{ $item->name }}"
-                        data-slug="{{ $item->slug }}" data-image="{{ Storage::url($item->featured_image_1) }}"
-                        data-price="{{ $item->sale_price }}"
-                        data-has-variant="{{ $item->variants->count() > 0 ? '1' : '0' }}">
-                        <i class="fas fa-shopping-cart text-xs"></i>
-                        {{ \App\Helpers\TranslateHelper::translate('Buy Now') }}
-                    </button>
-                </div>
-            </div>
-            @endforeach
-        </div>
-    </section>
-    @endif
-    @endforeach
+                               <button class="wishlist-btn add-to-wishlist {{ $isWishlisted ? 'active-wish' : '' }}"
+                                    data-id="{{ $item->id }}"
+                                    onclick="event.preventDefault();">
+                                    <i class="bi {{ $isWishlisted ? 'bi-heart-fill text-danger' : 'bi-heart' }}"></i>
+                                </button>
 
-    {{-- ── Customer Reviews ────────────────────────── --}}
-    <section class="w-full py-10 bg-white border-t border-gray-100 mb-8">
-        <div class="container mx-auto px-4">
-            <div class="flex items-center gap-3 mb-8">
-                <div class="w-1 h-7 bg-primary rounded-full"></div>
-                <h2 class="text-xl md:text-2xl font-black text-gray-900">What Our Customers Say</h2>
-            </div>
-            <div class="reviewSlider">
-                @foreach($review as $item)
-                <div class="px-2">
-                    <div class="review-card">
-                        <div class="flex items-center gap-3">
-                            <img src="{{ $item->image ? Storage::url($item->image) : 'https://via.placeholder.com/56x56/e5e7eb/6b7280?text=U' }}"
-                                alt="{{ $item->name }}"
-                                class="w-12 h-12 rounded-full object-cover ring-2 ring-gray-100 flex-shrink-0" />
-                            <div>
-                                <p class="text-sm font-bold text-gray-900">{{ $item->name }}</p>
-                                <div class="flex gap-0.5 mt-0.5">
-                                    @for($i = 1; $i <= 5; $i++)
-                                    <i class="fa-solid fa-star text-xs {{ $i <= $item->star ? 'text-yellow-400' : 'text-gray-200' }}"></i>
-                                    @endfor
+                                <img src="{{ Storage::url($item->featured_image_1) }}" alt="{{ $item->name }}" class="img-default">
+                                 @if($item->featured_image_2)
+                                <img src="{{ Storage::url($item->featured_image_2) }}" alt="{{ $item->name }}" class="img-hover">
+                                @else
+                                <img src="{{ Storage::url($item->featured_image_1) }}" alt="{{ $item->name }}" class="img-hover">
+                                @endif
+                            </div>
+                            <div class="product-body">
+                                <h3 class="product-title">{{ $item->name }}</h3>
+                                <div class="product-price">
+                                    <span class="price-old">{{ currency() }}{{ number_format($item->regular_price, 2) }}</span>
+                                    <span class="price-new">{{ currency() }}{{ number_format($item->sale_price, 2) }}</span>
+                                </div>
+                                <div class="product-btn-group">
+                                    <button type="button" class="btn-order-now"
+                                        onclick="trackProductClick('{{ $item->id }}', '{{ addslashes($item->name) }}', {{ $item->sale_price }}, 'new_arrival'); window.location.href='{{ route('product.single', $item->slug) }}';">
+                                          Order Now  
+                                    </button>
                                 </div>
                             </div>
-                        </div>
-                        <div class="bg-gray-50 rounded-xl px-4 py-3 border border-gray-100">
-                            <p class="text-xs text-gray-600 leading-relaxed">{{ $item->review_text }}</p>
-                        </div>
+                        </a>
                     </div>
+                    @endforeach
+                    <!-- Card 1 End -->
+
+                </div>
+
+                <button class="slider-nav slider-next" aria-label="Next">
+                    <i class="bi bi-chevron-right"></i>
+                </button>
+
+            </div>
+            <!-- Product Slider End -->
+
+        </div>
+    </section>
+  @endif
+
+
+
+  <style>
+    /* ✅ Mobile-এ Categories section 3 per row */
+    @media (max-width: 767px) {
+        .category-scroll {
+            display: grid !important;
+            grid-template-columns: repeat(3, 1fr) !important;
+            gap: 10px !important;
+            overflow-x: visible !important;
+        }
+        .category-card {
+            width: 100% !important;
+            flex-shrink: unset !important;
+        }
+        .category-img-wrap {
+            width: 100% !important;
+            aspect-ratio: 1 / 1;
+        }
+        .category-card span {
+            font-size: .72rem;
+            padding: 6px 4px !important;
+        }
+    }
+</style>
+
+
+  <!-- ===================== POPULAR CATEGORIES ===================== -->
+<section class="categories-section">
+    <div class="container">
+        <div class="section-title text-center">
+            <h2>ক্যাটাগরি <span>সমূহ</span></h2>
+        </div>
+
+        <div class="category-scroll">
+            @forelse($allPopularItems as $item)
+            <a href="javascript:void(0)" class="category-card"
+                data-type="{{ $item['type'] }}"
+                data-id="{{ $item['id'] }}"
+                data-name="{{ addslashes($item['name']) }}"
+                onclick="openSizeMenu(this)">
+                <div class="category-img-wrap">
+                    @if(!empty($item['image']))
+                    <img src="{{ Storage::url($item['image']) }}" alt="{{ $item['name'] }}">
+                    @else
+                    <img src="https://via.placeholder.com/200x150/f5f5f5/999999?text={{ urlencode($item['name']) }}" alt="{{ $item['name'] }}">
+                    @endif
+                </div>
+                <span>{{ $item['name'] }}</span>
+            </a>
+            @empty
+            <p class="text-muted">No popular categories found.</p>
+            @endforelse
+        </div>
+    </div>
+</section>
+
+    <!-- popular category sidebar  -->
+   <!-- ===================== CATEGORY SIZE OFFCANVAS MENU ===================== -->
+    <div class="size-menu-overlay" id="sizeMenuOverlay"></div>
+    <div class="size-menu-panel" id="sizeMenuPanel">
+
+        <div class="size-menu-header">
+            <span class="size-menu-title" id="sizeMenuCategoryName">MENU</span>
+            <button class="size-menu-close" id="sizeMenuClose">
+                <i class="bi bi-x"></i> CLOSE
+            </button>
+        </div>
+
+        <div class="size-menu-toolbar">
+            <span class="size-menu-hint">
+                CHOOSE YOUR SIZE FOR BETTER AVAILABILITY <i class="bi bi-fire"></i>
+            </span>
+
+            <div class="size-btn-group" id="sizeBtnGroup">
+                <span class="text-white-50 small">Loading sizes...</span>
+            </div>
+        </div>
+
+        <div class="size-menu-body" id="sizeMenuBody">
+            <p class="size-menu-placeholder">আপনার প্রয়োজনীয় পণ্য দেখতে সাইজ সিলেক্ট করুন</p>
+        </div>
+
+    </div>
+
+
+<!-- ===================== all products ===================== -->
+@if($allProducts->count())
+<section class="deals-section new-arrivals">
+    <div class="container">
+
+        <!-- Header -->
+        <div class="deals-header d-flex align-items-center justify-content-between">
+            <h2 class="deals-title">সকল <span>পণ্য</span></h2>
+            <a href="{{ route('products') }}" class="btn-see-all">আরও দেখুন</a>
+        </div>
+
+        <!-- Product Slider -->
+        <div class="products-slider-wrap">
+
+            <button class="slider-nav slider-prev" aria-label="Previous">
+                <i class="bi bi-chevron-left"></i>
+            </button>
+
+            <div class="products-slider">
+
+                @foreach($allProducts as $item)
+                @php
+                    $discount_amount = $item->regular_price - $item->sale_price;
+                    $discount_percentage = $item->regular_price > 0
+                        ? round(($discount_amount / $item->regular_price) * 100)
+                        : 0;
+
+                    // ✅ Wishlist status check
+                    $isWishlisted = auth()->check()
+                        ? auth()->user()->wishlists()->where('product_id', $item->id)->exists()
+                        : false;
+                @endphp
+                <div class="product-card">
+                    <a href="{{ route('product.single', $item->slug) }}">
+                        <div class="product-img-wrap">
+                            @if($item->regular_price > $item->sale_price)
+                            <span class="discount-tag">-{{ $discount_percentage }}%</span>
+                            @endif
+
+                            {{-- ✅ Wishlist button — dynamic filled/outline heart --}}
+                            <button class="wishlist-btn add-to-wishlist {{ $isWishlisted ? 'active-wish' : '' }}"
+                                data-id="{{ $item->id }}"
+                                onclick="event.preventDefault();">
+                                <i class="bi {{ $isWishlisted ? 'bi-heart-fill text-danger' : 'bi-heart' }}"></i>
+                            </button>
+
+                            <img src="{{ Storage::url($item->featured_image_1) }}" alt="{{ $item->name }}" class="img-default">
+                            @if($item->featured_image_2)
+                            <img src="{{ Storage::url($item->featured_image_2) }}" alt="{{ $item->name }}" class="img-hover">
+                            @else
+                            <img src="{{ Storage::url($item->featured_image_1) }}" alt="{{ $item->name }}" class="img-hover">
+                            @endif
+                        </div>
+                        <div class="product-body">
+                            <h3 class="product-title">{{ $item->name }}</h3>
+                            <div class="product-price">
+                                <span class="price-old">{{ currency() }}{{ number_format($item->regular_price, 2) }}</span>
+                                <span class="price-new">{{ currency() }}{{ number_format($item->sale_price, 2) }}</span>
+                            </div>
+                            <div class="product-btn-group">
+                                <button type="button" class="btn-order-now"
+                                    onclick="trackProductClick('{{ $item->id }}', '{{ addslashes($item->name) }}', {{ $item->sale_price }}, 'all_products'); window.location.href='{{ route('product.single', $item->slug) }}';">
+                                    Order Now
+                                </button>
+                            </div>
+                        </div>
+                    </a>
                 </div>
                 @endforeach
+
             </div>
+
+            <button class="slider-nav slider-next" aria-label="Next">
+                <i class="bi bi-chevron-right"></i>
+            </button>
+
+        </div>
+        <!-- Product Slider End -->
+
+    </div>
+</section>
+@endif
+    
+
+    <!-- ===================== popular brand ===================== -->
+<section class="brands-section">
+    <div class="container px-0">
+
+        <!-- Header -->
+        <div class="deals-header d-flex align-items-center justify-content-between">
+            <h2 class="deals-title ms-2">জনপ্রিয় <span>ব্র্যান্ডসমূহ</span></h2>
+            <a href="{{ route('brands') }}" class="btn-see-all me-2">আরও দেখুন</a>
+        </div>
+
+        @php
+            $popularBrands = \App\Models\Brand::where('status', 1)->get();
+        @endphp
+
+        @if($popularBrands->count() > 0)
+        <!-- Circle Marquee -->
+        <div class="brands-marquee-outer">
+            <div class="brands-marquee-track" id="brandsTrack">
+
+                {{-- Original set --}}
+                @foreach($popularBrands as $brand)
+                <a href="{{ route('products', ['brand' => $brand->id]) }}" class="brand-item" aria-label="{{ $brand->name }}">
+                    <div class="brand-circle">
+                        @if($brand->logo)
+                            <img src="{{ Storage::url($brand->logo) }}" alt="{{ $brand->name }}" loading="lazy">
+                        @else
+                            <img src="https://placehold.co/300x300/1c1c1c/ffffff?text={{ urlencode($brand->name) }}&font=poppins" alt="{{ $brand->name }}" loading="lazy">
+                        @endif
+                    </div>
+                </a>
+                @endforeach
+
+                {{-- Duplicate set for seamless infinite loop (aria-hidden, no click needed but harmless if clicked) --}}
+                @foreach($popularBrands as $brand)
+                <a href="{{ route('products', ['brand' => $brand->id]) }}" class="brand-item" aria-hidden="true" tabindex="-1">
+                    <div class="brand-circle">
+                        @if($brand->logo)
+                            <img src="{{ Storage::url($brand->logo) }}" alt="" loading="lazy">
+                        @else
+                            <img src="https://placehold.co/300x300/1c1c1c/ffffff?text={{ urlencode($brand->name) }}&font=poppins" alt="" loading="lazy">
+                        @endif
+                        
+                    </div>
+                </a>
+                @endforeach
+
+            </div>
+        </div>
+        @else
+        <p class="text-muted text-center">No brands found.</p>
+        @endif
+
+    </div>
+</section>
+
+
+    <!-- ===================== our showroom ===================== -->
+    <section class="deals-section showroom-section">
+        <div class="container">
+
+            <!-- Header -->
+            <div class="deals-header d-flex align-items-center justify-content-between">
+                <h2 class="deals-title">আমাদের <span>শোরুম সমূহ</span></h2>
+                <a href="{{route('showrooms')}}" class="btn-see-all">আরও দেখুন</a>
+            </div>
+
+          <!-- Showroom Marquee -->
+            <div class="showroom-marquee-wrap">
+                <div class="showroom-marquee-track" id="showroomMarqueeTrack">
+
+                    <!-- Set 1 -->
+                    @foreach($showroom as $item)
+                    <div class="showroom-card">
+                        <a href="{{ route('showroom.detail', $item->id) }}">
+                            <div class="showroom-img-wrap">
+                                <img src="{{Storage::url($item->image)}}"
+                                    alt="{{$item->name}}">
+                            </div>
+                            <span class="showroom-name">{{$item->name}}</span>
+                        </a>
+                    </div>
+                    @endforeach
+
+                </div>
+            </div>
+
         </div>
     </section>
 
-    {{-- ── Features Strip ──────────────────────────── --}}
-    <section class="bg-white border-t border-gray-100 py-8 hidden lg:block">
-        <div class="container mx-auto px-4">
-            @php
-            $features = [
-                ['title' => $setting->list_1 ?? '60 Mins Delivery',         'subtitle' => $setting->list_2 ?? 'Free shipping over 1500Tk',         'icon' => 'fas fa-box'],
-                ['title' => $setting->list_3 ?? 'Authorized Products',      'subtitle' => $setting->list_4 ?? 'Within 30 days for an exchange',     'icon' => 'fas fa-shield-alt'],
-                ['title' => $setting->list_5 ?? 'Customer Service Support', 'subtitle' => $setting->list_6 ?? '8am to 10pm',                        'icon' => 'fas fa-headset'],
-                ['title' => $setting->list_7 ?? 'Flexible Payments',        'subtitle' => $setting->list_8 ?? 'Pay with multiple credit cards',      'icon' => 'fas fa-wallet'],
-            ];
-            @endphp
-            <div class="grid grid-cols-2 lg:grid-cols-4 gap-4">
-                @foreach($features as $feature)
-                <div class="flex items-center gap-4 p-4 rounded-xl border border-gray-100 bg-gray-50 hover:border-primary/30 hover:bg-primary/5 transition-all">
-                    <div class="w-12 h-12 rounded-full border-2 border-primary flex items-center justify-center flex-shrink-0 bg-white">
-                        <i class="{{ $feature['icon'] }} text-xl text-primary"></i>
+
+
+    <!-- ===== REVIEW SECTION ===== -->
+    <section class="review-section">
+        <div class="container">
+            <div class="section-title-wrap mb-4">
+                <h2>কাস্টমার রিভিউ</h2>
+            </div>
+
+            <div class="slides-wrapper">
+                <div class="slides-track" id="slidesTrack">
+
+                   <!-- Review Card -->
+                    @foreach($review as $item)
+                    <div class="slide-item">
+                        <div class="review-card d-flex flex-column">
+                            <div class="d-flex align-items-center gap-3 mb-3">
+                                <img src="{{ $item->image ? Storage::url($item->image) : 'https://via.placeholder.com/56x56/e5e7eb/6b7280?text=U' }}"
+                                    alt="{{ $item->name }}"
+                                    class="reviewer-img">
+                                <div>
+                                    <h6 class="mb-1 fw-bold" style="font-size:.9rem;">{{ $item->name }}</h6>
+                                    <div class="star-rating">
+                                        @for($i = 1; $i <= 5; $i++)
+                                            <i class="fa-solid fa-star {{ $i <= $item->star ? 'star-on' : 'star-off' }}"></i>
+                                        @endfor
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="review-body flex-grow-1">
+                                <p>{{ $item->review_text }}</p>
+                            </div>
+                        </div>
                     </div>
-                    <div>
-                        <p class="text-sm font-bold text-gray-900 leading-tight">{{ $feature['title'] }}</p>
-                        <p class="text-xs text-gray-500 mt-0.5">{{ $feature['subtitle'] }}</p>
-                    </div>
+                    @endforeach
+
+                </div><!-- /slides-track -->
+            </div><!-- /slides-wrapper -->
+
+            <!-- Dots -->
+            <div class="" id="sliderDots"></div>
+
+        </div>
+    </section>
+    <!-- ===================== PERKS STRIP ===================== -->
+    <section class="perks-strip">
+        <div class="container">
+            <div class="row text-center g-3">
+                <div class="col-6 col-md-3">
+                    <i class="bi bi-truck"></i>
+                    <p>{{$setting->list_1}}<span>{{$setting->list_2}}</span></p>
                 </div>
-                @endforeach
+                <div class="col-6 col-md-3">
+                    <i class="bi bi-patch-check"></i>
+                    <p>{{$setting->list_3}}<span>{{$setting->list_4}}</span></p>
+                </div>
+                <div class="col-6 col-md-3">
+                    <i class="bi bi-arrow-repeat"></i>
+                    <p>{{$setting->list_5}}<span>{{$setting->list_6}}</span></p>
+                </div>
+                <div class="col-6 col-md-3">
+                    <i class="bi bi-headset"></i>
+                    <p>{{$setting->list_7}}<span>{{$setting->list_8}}</span></p>
+                </div>
             </div>
         </div>
     </section>
 
 </main>
 
+@endsection
+
+@section('script')
+<script>
+    function trackProductClick(productId, productName, price, listName) {
+        // GTM — select_item
+        window.dataLayer = window.dataLayer || [];
+        window.dataLayer.push({
+            ecommerce: null
+        });
+        window.dataLayer.push({
+            event: 'select_item',
+            page_type: 'listing',
+            ecommerce: {
+                item_list_name: listName,
+                currency: 'BDT',
+                items: [{
+                    item_id: String(productId),
+                    item_name: productName,
+                    item_list_name: listName,
+                    price: price,
+                    quantity: 1
+                }]
+            }
+        });
+
+        // Facebook Pixel — ViewContent (listing থেকে click)
+        fbq('trackCustom', 'ProductClick', {
+            content_ids: [String(productId)],
+            content_name: productName,
+            content_type: 'product',
+            value: price,
+            currency: 'BDT',
+            list_name: listName
+        });
+    }
+
+
+    function trackCategoryView(categoryId, categoryName) {
+        // GTM — view_item_list
+        window.dataLayer = window.dataLayer || [];
+        window.dataLayer.push({
+            ecommerce: null
+        });
+        window.dataLayer.push({
+            event: 'view_item_list',
+            page_type: 'listing',
+            ecommerce: {
+                item_list_name: categoryName,
+                item_list_id: String(categoryId)
+            }
+        });
+
+        // Facebook Pixel
+        fbq('trackCustom', 'CategoryView', {
+            content_category: categoryName,
+            content_ids: [String(categoryId)]
+        });
+    }
+</script>
 @endsection
