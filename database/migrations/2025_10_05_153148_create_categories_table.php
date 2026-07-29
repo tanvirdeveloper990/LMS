@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('categories', function (Blueprint $table) {
             $table->id();
+            $table->string('type')->nullable();
             $table->string('name')->unique();
             $table->string('slug')->unique();
             $table->string('image')->nullable();

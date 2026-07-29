@@ -716,7 +716,7 @@ img {
   .banner-slide img {
     width: 100%;
     height: auto;
-    object-fit: contain;
+
     aspect-ratio: 24 / 9;
     /* তোমার banner image এর actual ratio অনুযায়ী চেঞ্জ করে নিও */
   }
@@ -5609,3 +5609,13 @@ main {
 
 /*  */
 /*  footer end */
+
+
+
+
+
+.ebkcat-card-link {
+    text-decoration: none;
+    color: inherit;
+    display: block;
+}

@@ -1,6 +1,6 @@
 @extends('admin.layouts.app')
 
-@section('title', 'Categories List')
+@section('title', 'Course Categories List')
 
 @section('content')
 <div class="container-fluid py-4">
@@ -8,8 +8,8 @@
     <div class="card shadow-lg rounded-3">
         {{-- Card Header --}}
         <div class="card-header d-flex justify-content-between align-items-center bg-gradient-purple text-white">
-            <h5 class="mb-0">Categories List</h5>
-            <a href="{{ route('admin.categories.create') }}" class="btn btn-light btn-sm">
+            <h5 class="mb-0">Course Categories List</h5>
+            <a href="{{ route('admin.course-categories.create') }}" class="btn btn-light btn-sm">
                 <i class="fa fa-plus me-1"></i> Add Category
             </a>
         </div>
@@ -51,11 +51,11 @@
                             </td>
                             <td class="text-center">
                                 <div class="d-flex justify-content-center gap-2 flex-wrap">
-                                    <a href="{{ route('admin.categories.edit', $category->id) }}" class="btn btn-primary btn-sm">
+                                    <a href="{{ route('admin.course-categories.edit', $category->id) }}" class="btn btn-primary btn-sm">
                                         <i class="fa fa-edit"></i>
                                     </a>
 
-                                    <form id="delete-form-{{ $category->id }}" action="{{ route('admin.categories.destroy', $category->id) }}" method="POST" class="d-none">
+                                    <form id="delete-form-{{ $category->id }}" action="{{ route('admin.course-categories.destroy', $category->id) }}" method="POST" class="d-none">
                                         @csrf
                                         @method('DELETE')
                                     </form>
@@ -107,12 +107,11 @@
             onEnd: function () {
                 const order = Array.from(sortableBody.querySelectorAll('tr[data-id]')).map(tr => tr.dataset.id);
 
-                // Update Sl numbers instantly
                 sortableBody.querySelectorAll('tr[data-id] .serial-no').forEach((cell, index) => {
                     cell.textContent = index + 1;
                 });
 
-                fetch('{{ route("admin.categories.updateOrder") }}', {
+                fetch('{{ route("admin.course-categories.updateOrder") }}', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',

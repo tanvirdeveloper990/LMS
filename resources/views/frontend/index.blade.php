@@ -19,14 +19,6 @@
       <div class="banner-slide active">
         <img src="assets/img/banner/banner1.png" alt="Banner">
       </div>
-      <!--
-      নতুন banner যোগ করতে চাইলে নিচের মতো block কপি করে
-      img এর src পরিবর্তন করে দিন (banner2.png, banner3.png ...)
-
-      <div class="banner-slide">
-        <img src="assets/img/banner/banner2.png" alt="Banner">
-      </div>
-    -->
     </div>
 
     <button class="banner-arrow banner-prev" aria-label="আগের ব্যানার"><i class="bi bi-chevron-left"></i></button>
@@ -48,63 +40,19 @@
 
       <div class="cs-grid">
 
-        <div class="cs-card cs-card--c1">
-          <div class="cs-illustration">
-            <img
-              src="https://images.unsplash.com/photo-1588072432836-e10032774350?w=400&h=400&fit=crop&auto=format&q=80"
-              alt="৫ম শ্রেণি">
+          @foreach($courses as $course)
+          <div class="cs-card cs-card--c{{ ($loop->index % 6) + 1 }}">
+              <div class="cs-illustration">
+                  <img
+                      src="{{ Storage::url($course->image) }}"
+                      alt="{{ $course->name }}">
+              </div>
+              <h3 class="cs-card-title">{{ $course->name }}</h3>
+              <a href="#" class="cs-card-btn">
+                  কোর্স দেখুন <i class="bi bi-arrow-right"></i>
+              </a>
           </div>
-          <h3 class="cs-card-title">৫ম শ্রেণি</h3>
-          <a href="#" class="cs-card-btn">কোর্স দেখুন <i class="bi bi-arrow-right"></i></a>
-        </div>
-
-        <div class="cs-card cs-card--c2">
-          <div class="cs-illustration">
-            <img src="https://images.unsplash.com/photo-1560785496-3c9d27877182?w=400&h=400&fit=crop&auto=format&q=80"
-              alt="৬ষ্ঠ শ্রেণি">
-          </div>
-          <h3 class="cs-card-title">৬ষ্ঠ শ্রেণি</h3>
-          <a href="#" class="cs-card-btn">কোর্স দেখুন <i class="bi bi-arrow-right"></i></a>
-        </div>
-
-        <div class="cs-card cs-card--c3">
-          <div class="cs-illustration">
-            <img src="https://images.unsplash.com/photo-1554721299-e0b8aa7666ce?w=400&h=400&fit=crop&auto=format&q=80"
-              alt="৭ম শ্রেণি">
-          </div>
-          <h3 class="cs-card-title">৭ম শ্রেণি</h3>
-          <a href="#" class="cs-card-btn">কোর্স দেখুন <i class="bi bi-arrow-right"></i></a>
-        </div>
-
-        <div class="cs-card cs-card--c4">
-          <div class="cs-illustration">
-            <img
-              src="https://images.unsplash.com/photo-1610500796385-3ffc1ae2f046?w=400&h=400&fit=crop&auto=format&q=80"
-              alt="৮ম শ্রেণি">
-          </div>
-          <h3 class="cs-card-title">৮ম শ্রেণি</h3>
-          <a href="#" class="cs-card-btn">কোর্স দেখুন <i class="bi bi-arrow-right"></i></a>
-        </div>
-
-        <div class="cs-card cs-card--c5">
-          <div class="cs-illustration">
-            <img
-              src="https://images.unsplash.com/photo-1540151812223-c30b3fab58e6?w=400&h=400&fit=crop&auto=format&q=80"
-              alt="৯ম শ্রেণি">
-          </div>
-          <h3 class="cs-card-title">৯ম শ্রেণি</h3>
-          <a href="#" class="cs-card-btn">কোর্স দেখুন <i class="bi bi-arrow-right"></i></a>
-        </div>
-
-        <div class="cs-card cs-card--c6">
-          <div class="cs-illustration">
-            <img
-              src="https://images.unsplash.com/photo-1585432959445-662c9bbcd91d?w=400&h=400&fit=crop&auto=format&q=80"
-              alt="১০ম শ্রেণি">
-          </div>
-          <h3 class="cs-card-title">১০ম শ্রেণি</h3>
-          <a href="#" class="cs-card-btn">কোর্স দেখুন <i class="bi bi-arrow-right"></i></a>
-        </div>
+          @endforeach
 
       </div>
     </div>
@@ -127,33 +75,19 @@
 
       <div class="pc-grid">
 
-        <div class="pc-card pc-card--c1">
-          <div class="pc-icon-badge">🏆</div>
-          <h3 class="pc-card-title">প্রাথমিক বৃত্তি পরীক্ষা</h3>
-          <p class="pc-card-desc">৫ম শ্রেণির জন্য বিশেষ প্রস্তুতি</p>
-          <a href="#" class="pc-card-btn">কোর্স দেখুন <i class="bi bi-arrow-right"></i></a>
-        </div>
 
-        <div class="pc-card pc-card--c2">
-          <div class="pc-icon-badge">🥇</div>
-          <h3 class="pc-card-title">জুনিয়র বৃত্তি পরীক্ষা</h3>
-          <p class="pc-card-desc">৮ম শ্রেণির জন্য বিশেষ প্রস্তুতি</p>
+        @foreach($preparations as $preparation)
+        <div class="pc-card pc-card--c{{ ($loop->index % 4) + 1 }}">
+          <div class="pc-icon-badge">
+              <img src="{{ Storage::url($preparation->image) }}" alt="{{ $preparation->name }}">
+          </div>
+          <h3 class="pc-card-title">{{ $preparation->name }}</h3>
+          <p class="pc-card-desc">{{ $preparation->text }}</p>
           <a href="#" class="pc-card-btn">কোর্স দেখুন <i class="bi bi-arrow-right"></i></a>
         </div>
+        @endforeach
 
-        <div class="pc-card pc-card--c3">
-          <div class="pc-icon-badge">🎯</div>
-          <h3 class="pc-card-title">SSC প্রস্তুতি কোর্স</h3>
-          <p class="pc-card-desc">৯ম ও ১০ম শ্রেণির জন্য বিশেষ প্রস্তুতি</p>
-          <a href="#" class="pc-card-btn">কোর্স দেখুন <i class="bi bi-arrow-right"></i></a>
-        </div>
-
-        <div class="pc-card pc-card--c4">
-          <div class="pc-icon-badge">📋</div>
-          <h3 class="pc-card-title">মডেল টেস্ট সিরিজ</h3>
-          <p class="pc-card-desc">নিয়মিত অনুশীলনে নিশ্চিত সাফল্য</p>
-          <a href="#" class="pc-card-btn">কোর্স দেখুন <i class="bi bi-arrow-right"></i></a>
-        </div>
+       
 
       </div>
     </div>

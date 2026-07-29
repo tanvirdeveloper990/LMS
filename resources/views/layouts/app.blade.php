@@ -1434,6 +1434,197 @@ $tagmanager = \App\Models\TagManager::first();
     })();
   </script>
 
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    var track = document.getElementById('ebookTrack');
+    if (!track) return;
+
+    var header = track.closest('.ebkcat-section') || document;
+    var buttons = header.querySelectorAll('.ebkcat-nav-btn');
+
+    var AUTO_DELAY = 3000;
+    var autoTimer = null;
+
+    function getCards() {
+      return Array.prototype.slice.call(track.querySelectorAll('.ebkcat-card'));
+    }
+
+    function isAtEnd() {
+      var tolerance = 5;
+      return track.scrollLeft + track.clientWidth >= track.scrollWidth - tolerance;
+    }
+
+    function goNext() {
+      var cards = getCards();
+      var current = track.scrollLeft;
+      var tolerance = 2;
+
+      if (isAtEnd()) {
+        track.scrollTo({ left: 0, behavior: 'smooth' });
+        return;
+      }
+
+      for (var i = 0; i < cards.length; i++) {
+        if (cards[i].offsetLeft > current + tolerance) {
+          track.scrollTo({ left: cards[i].offsetLeft, behavior: 'smooth' });
+          return;
+        }
+      }
+    }
+
+    function goPrev() {
+      var cards = getCards();
+      var current = track.scrollLeft;
+      var tolerance = 2;
+
+      for (var i = cards.length - 1; i >= 0; i--) {
+        if (cards[i].offsetLeft < current - tolerance) {
+          track.scrollTo({ left: cards[i].offsetLeft, behavior: 'smooth' });
+          return;
+        }
+      }
+      track.scrollTo({ left: 0, behavior: 'smooth' });
+    }
+
+    function startAuto() {
+      stopAuto();
+      autoTimer = setInterval(goNext, AUTO_DELAY);
+    }
+
+    function stopAuto() {
+      if (autoTimer) {
+        clearInterval(autoTimer);
+        autoTimer = null;
+      }
+    }
+
+    function restartAutoAfterInteraction() {
+      stopAuto();
+      startAuto();
+    }
+
+    // ✅ Pointer Events — mouse + touch + pen সব একসাথে হ্যান্ডেল করে,
+    // কোনো ডাবল-ফায়ার বা preventDefault ঝামেলা ছাড়াই
+    buttons.forEach(function (btn) {
+      btn.addEventListener('pointerup', function (e) {
+        if (btn.disabled) return;
+        e.preventDefault();
+
+        if (btn.dataset.dir === 'next') goNext();
+        else goPrev();
+        restartAutoAfterInteraction();
+      });
+
+      // ✅ Fallback — খুব পুরনো ব্রাউজার যেগুলো Pointer Events সাপোর্ট করে না
+      if (!window.PointerEvent) {
+        btn.addEventListener('click', function (e) {
+          if (btn.disabled) return;
+          e.preventDefault();
+          if (btn.dataset.dir === 'next') goNext();
+          else goPrev();
+          restartAutoAfterInteraction();
+        });
+      }
+    });
+
+    track.addEventListener('keydown', function (e) {
+      if (e.key === 'ArrowRight') { goNext(); restartAutoAfterInteraction(); }
+      if (e.key === 'ArrowLeft') { goPrev(); restartAutoAfterInteraction(); }
+    });
+
+    track.addEventListener('mouseenter', stopAuto);
+    track.addEventListener('mouseleave', startAuto);
+
+    track.addEventListener('touchstart', stopAuto, { passive: true });
+    track.addEventListener('touchend', function () {
+      setTimeout(startAuto, 1500);
+    });
+
+    function updateNavState() {
+      var tolerance = 5;
+      var atStart = track.scrollLeft <= tolerance;
+
+      buttons.forEach(function (btn) {
+        if (btn.dataset.dir === 'prev') btn.disabled = atStart;
+        if (btn.dataset.dir === 'next') btn.disabled = false;
+      });
+    }
+
+    track.addEventListener('scroll', updateNavState);
+    window.addEventListener('resize', updateNavState);
+
+    setTimeout(function () {
+      updateNavState();
+      startAuto();
+    }, 300);
+  });
+</script>
+
+  <!-- product slider js -->
+  <script>
+    (function () {
+      const track = document.getElementById('dealsTrack');
+      if (!track) return;
+
+      const originalSlides = Array.from(track.children);
+      const slideCount = originalSlides.length;
+
+      // Infinite loop er jonno original slides gulo clone kore abar shesh e jure dicchi
+      originalSlides.forEach(slide => {
+        const clone = slide.cloneNode(true);
+        track.appendChild(clone);
+      });
+
+      let index = 0;
+      let slideWidth = 0;
+      let visibleCount = window.innerWidth >= 992 ? 4 : 2;
+      let autoSlideInterval;
+
+      function getSlideWidth() {
+        return track.children[0].getBoundingClientRect().width;
+      }
+
+      function goToSlide(i, animate = true) {
+        slideWidth = getSlideWidth();
+        track.style.transition = animate ? 'transform 0.6s ease' : 'none';
+        track.style.transform = `translateX(-${slideWidth * i}px)`;
+      }
+
+      function nextSlide() {
+        index++;
+        goToSlide(index);
+
+        // Jokhon original slides shesh hoye clone e chole jabe, tokhon nishobde
+        // abar 0 index e reset kore dibe (infinite loop feel dibar jonno)
+        if (index >= slideCount) {
+          setTimeout(() => {
+            index = 0;
+            goToSlide(index, false);
+          }, 600);
+        }
+      }
+
+      function startAutoSlide() {
+        autoSlideInterval = setInterval(nextSlide, 2500);
+      }
+
+      function stopAutoSlide() {
+        clearInterval(autoSlideInterval);
+      }
+
+      window.addEventListener('resize', () => {
+        goToSlide(index, false);
+      });
+
+      // Slider e mouse hover korle auto slide thamiye dibe, hover shore gele abar cholbe
+      track.parentElement.addEventListener('mouseenter', stopAutoSlide);
+      track.parentElement.addEventListener('mouseleave', startAutoSlide);
+
+      goToSlide(0, false);
+      startAutoSlide();
+    })();
+  </script>
+
 
 
     @yield('script')

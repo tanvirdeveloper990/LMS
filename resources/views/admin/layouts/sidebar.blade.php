@@ -177,64 +177,77 @@
         </li>
         @endcanany
 
-        {{-- Category System --}}
-        @canany(['create category','edit category','view category','delete category','create subcategory','edit subcategory','view subcategory','delete subcategory'])
-        @php $categoryActive = request()->is('admin/categories*') || request()->is('admin/subcategories*'); @endphp
-        <li class="nav-item">
-            <a class="nav-link d-flex align-items-center {{ $categoryActive ? '' : 'collapsed' }}"
-               data-bs-toggle="collapse" href="#categoryMenu" role="button" aria-expanded="{{ $categoryActive ? 'true' : 'false' }}">
-                <i class="fas fa-list menu-icon"></i>
-                <span>Category System</span>
-                <i class="fas fa-chevron-right rotate"></i>
-            </a>
-            <div class="collapse {{ $categoryActive ? 'show' : '' }}" id="categoryMenu">
-                <ul class="nav flex-column">
-                    @canany(['create category','edit category','view category','delete category'])
-                    <li><a class="nav-link {{ request()->is('admin/categories*') ? 'active' : '' }}" href="{{ route('admin.categories.index') }}">
-                        <i class="fas fa-tag menu-icon"></i> Top Categories
-                    </a></li>
-                    @endcanany
-                    @canany(['create subcategory','edit subcategory','view subcategory','delete subcategory'])
-                    <li><a class="nav-link {{ request()->is('admin/subcategories*') ? 'active' : '' }}" href="{{ route('admin.subcategories.index') }}">
-                        <i class="fas fa-tags menu-icon"></i> Sub Categories
-                    </a></li>
-                    @endcanany
-                </ul>
-            </div>
-        </li>
-        @endcanany
+   {{-- Products & Categories --}}
+    @canany(['create category','edit category','view category','delete category','create subcategory','edit subcategory','view subcategory','delete subcategory','create product','edit product','view product','delete product'])
+    @php
+        $productCatActive = request()->is('admin/shop-categories*')
+            || request()->is('admin/ebook-categories*')
+            || request()->is('admin/course-categories*')
+            || request()->is('admin/preparation-categories*')
+            || request()->is('admin/subcategories*')
+            || request()->is('admin/products*')
+            || request()->is('admin/colors*')
+            || request()->is('admin/sizes*')
+            || request()->is('admin/brands*');
+    @endphp
+    <li class="nav-item">
+        <a class="nav-link d-flex align-items-center {{ $productCatActive ? '' : 'collapsed' }}"
+        data-bs-toggle="collapse" href="#productCatMenu" role="button" aria-expanded="{{ $productCatActive ? 'true' : 'false' }}">
+            <i class="fas fa-boxes-stacked menu-icon"></i>
+            <span>Products & Categories</span>
+            <i class="fas fa-chevron-right rotate"></i>
+        </a>
+        <div class="collapse {{ $productCatActive ? 'show' : '' }}" id="productCatMenu">
+            <ul class="nav flex-column">
 
-        {{-- Product Management --}}
-        @canany(['create product','edit product','view product','delete product'])
-        @php $productActive = request()->is('admin/products*') || request()->is('admin/colors*') || request()->is('admin/sizes*') || request()->is('admin/brands*'); @endphp
-        <li class="nav-item">
-            <a class="nav-link d-flex align-items-center {{ $productActive ? '' : 'collapsed' }}"
-               data-bs-toggle="collapse" href="#productMenu" role="button" aria-expanded="{{ $productActive ? 'true' : 'false' }}">
-                <i class="fas fa-boxes-stacked menu-icon"></i>
-                <span>Product Management</span>
-                <i class="fas fa-chevron-right rotate"></i>
-            </a>
-            <div class="collapse {{ $productActive ? 'show' : '' }}" id="productMenu">
-                <ul class="nav flex-column">
-                    <li><a class="nav-link {{ request()->is('admin/products*') && !request()->is('admin/products/create') ? 'active' : '' }}" href="{{ route('admin.products.index') }}">
-                        <i class="fas fa-th-large menu-icon"></i> All Products
-                    </a></li>
-                    <li><a class="nav-link {{ request()->is('admin/products/create') ? 'active' : '' }}" href="{{ route('admin.products.create') }}">
-                        <i class="fas fa-plus menu-icon"></i> Add Product
-                    </a></li>
-                    <li><a class="nav-link {{ request()->is('admin/colors*') ? 'active' : '' }}" href="{{ route('admin.colors.index') }}">
-                        <i class="fas fa-palette menu-icon"></i> Colors
-                    </a></li>
-                    <li><a class="nav-link {{ request()->is('admin/sizes*') ? 'active' : '' }}" href="{{ route('admin.sizes.index') }}">
-                        <i class="fas fa-ruler menu-icon"></i> Sizes
-                    </a></li>
-                    <li><a class="nav-link {{ request()->is('admin/brands*') ? 'active' : '' }}" href="{{ route('admin.brands.index') }}">
-                        <i class="fas fa-certificate menu-icon"></i> Brands
-                    </a></li>
-                </ul>
-            </div>
-        </li>
-        @endcanany
+                {{-- ── Category options ── --}}
+                @canany(['create category','edit category','view category','delete category'])
+                <li><a class="nav-link {{ request()->is('admin/shop-categories*') ? 'active' : '' }}" href="{{ route('admin.shop-categories.index') }}">
+                    <i class="fas fa-store menu-icon"></i> Shop Categories
+                </a></li>
+
+                <li><a class="nav-link {{ request()->is('admin/ebook-categories*') ? 'active' : '' }}" href="{{ route('admin.ebook-categories.index') }}">
+                    <i class="fas fa-book menu-icon"></i> Ebook Categories
+                </a></li>
+
+                <li><a class="nav-link {{ request()->is('admin/course-categories*') ? 'active' : '' }}" href="{{ route('admin.course-categories.index') }}">
+                    <i class="fas fa-graduation-cap menu-icon"></i> Course Categories
+                </a></li>
+
+                <li><a class="nav-link {{ request()->is('admin/preparation-categories*') ? 'active' : '' }}" href="{{ route('admin.preparation-categories.index') }}">
+                    <i class="fas fa-book-reader menu-icon"></i> Preparation Categories
+                </a></li>
+                @endcanany
+
+                @canany(['create subcategory','edit subcategory','view subcategory','delete subcategory'])
+                <li><a class="nav-link {{ request()->is('admin/subcategories*') ? 'active' : '' }}" href="{{ route('admin.subcategories.index') }}">
+                    <i class="fas fa-tags menu-icon"></i> Sub Categories
+                </a></li>
+                @endcanany
+
+                {{-- ── Product options ── --}}
+                @canany(['create product','edit product','view product','delete product'])
+                <li><a class="nav-link {{ request()->is('admin/products*') && !request()->is('admin/products/create') ? 'active' : '' }}" href="{{ route('admin.products.index') }}">
+                    <i class="fas fa-th-large menu-icon"></i> All Products
+                </a></li>
+                <li><a class="nav-link {{ request()->is('admin/products/create') ? 'active' : '' }}" href="{{ route('admin.products.create') }}">
+                    <i class="fas fa-plus menu-icon"></i> Add Product
+                </a></li>
+                <li><a class="nav-link {{ request()->is('admin/colors*') ? 'active' : '' }}" href="{{ route('admin.colors.index') }}">
+                    <i class="fas fa-palette menu-icon"></i> Colors
+                </a></li>
+                <li><a class="nav-link {{ request()->is('admin/sizes*') ? 'active' : '' }}" href="{{ route('admin.sizes.index') }}">
+                    <i class="fas fa-ruler menu-icon"></i> Sizes
+                </a></li>
+                <li><a class="nav-link {{ request()->is('admin/brands*') ? 'active' : '' }}" href="{{ route('admin.brands.index') }}">
+                    <i class="fas fa-certificate menu-icon"></i> Brands
+                </a></li>
+                @endcanany
+
+            </ul>
+        </div>
+    </li>
+    @endcanany
 
       
 

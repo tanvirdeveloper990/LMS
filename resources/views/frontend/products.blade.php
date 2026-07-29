@@ -14,36 +14,38 @@
 
 <style>
     :root {
-        --brand-red: #FF0000;
-        --brand-black: #000000;
-        --brand-white: #ffffff;
+        --brand-blue: #2563eb;
+        --brand-purple: #7c3aed;
+        --brand-gradient: linear-gradient(135deg, #2563eb 0%, #7c3aed 100%);
+        --brand-dark: #1f2937;
+        --brand-muted: #6b7280;
     }
 
-    body { background: #f7f7f8; }
+    body { background: linear-gradient(160deg, #f3f6ff 0%, #f8f5ff 45%, #fdf6fa 100%); }
+
+    * { font-family: 'Hind Siliguri', 'Noto Sans Bengali', sans-serif; }
 
     /* ── Sidebar ─────────────────────────────────────── */
     .sidebar-section {
-        background: var(--brand-white);
-        border-radius: 12px;
-        box-shadow: 0 1px 4px rgba(0,0,0,0.06);
-        padding: 16px;
+        background: #fff;
+        border-radius: 20px;
+        box-shadow: 0 4px 16px rgba(99,102,241,.06);
+        padding: 18px;
         margin-bottom: 16px;
-        border: 1px solid #eee;
+        border: 1px solid #eef0fb;
     }
     .sidebar-section__title {
-        font-size: .8125rem;
+        font-size: .85rem;
         font-weight: 800;
-        color: var(--brand-black);
+        color: var(--brand-dark);
         display: flex;
         align-items: center;
         justify-content: space-between;
         cursor: pointer;
         padding-bottom: 10px;
-        border-bottom: 1px solid #eee;
+        border-bottom: 1px dashed #e5e7ff;
         margin-bottom: 12px;
         user-select: none;
-        letter-spacing: .04em;
-        text-transform: uppercase;
     }
     .sidebar-section__title i {
         color: #9ca3af;
@@ -53,69 +55,71 @@
     .sidebar-section__title i.rotate-180 { transform: rotate(180deg); }
 
     .form-check-input:checked {
-        background-color: var(--brand-red);
-        border-color: var(--brand-red);
+        background-color: var(--brand-blue);
+        border-color: var(--brand-blue);
     }
     .form-check-input:focus {
-        box-shadow: 0 0 0 .2rem rgba(255,0,0,.15);
-        border-color: var(--brand-red);
+        box-shadow: 0 0 0 .2rem rgba(37,99,235,.15);
+        border-color: var(--brand-blue);
     }
     .form-check-label { font-size: .875rem; color: #4b5563; cursor: pointer; }
-    .form-check:hover .form-check-label { color: var(--brand-red); }
+    .form-check:hover .form-check-label { color: var(--brand-blue); }
 
     .btn-brand {
-        background: var(--brand-red);
-        color: var(--brand-white);
+        background: var(--brand-gradient);
+        color: #fff;
         border: none;
         font-weight: 700;
-        font-size: .78rem;
-        transition: background .2s ease;
+        font-size: .82rem;
+        box-shadow: 0 8px 20px rgba(37,99,235,.25);
+        transition: transform .18s ease, box-shadow .18s ease;
     }
     .btn-brand:hover {
-        background: var(--brand-black);
-        color: var(--brand-white);
+        color: #fff;
+        transform: translateY(-2px);
+        box-shadow: 0 12px 26px rgba(37,99,235,.32);
     }
 
     .price-box {
-        background: #f9fafb;
-        border: 1px solid #eee;
-        font-size: .75rem;
-        color: #6b7280;
-        padding: 3px 9px;
-        border-radius: 6px;
-        font-weight: 600;
+        background: #f4f6ff;
+        border: 1px solid #e5e7ff;
+        font-size: .78rem;
+        color: var(--brand-blue);
+        padding: 4px 10px;
+        border-radius: 8px;
+        font-weight: 700;
     }
 
     #sliderTrack { position: relative; height: 6px; background: #eee; border-radius: 50px; margin: 10px 0 18px; }
-    #sliderRange { position: absolute; height: 6px; background: var(--brand-red); border-radius: 50px; }
+    #sliderRange { position: absolute; height: 6px; background: var(--brand-gradient); border-radius: 50px; }
     #sliderTrack input[type="range"] { position: absolute; width: 100%; height: 6px; top: 0; opacity: 0; cursor: pointer; }
 
     .cat-link {
         display: flex;
         align-items: center;
         gap: 8px;
-        padding: 8px 4px;
+        padding: 9px 6px;
         font-size: .875rem;
         color: #4b5563;
         text-decoration: none;
         flex: 1;
-        border-radius: 8px;
-        transition: color .2s ease;
+        border-radius: 12px;
+        transition: all .2s ease;
     }
-    .cat-link:hover { color: var(--brand-red); background: #fff5f5; }
-    .cat-link.active { color: var(--brand-red); font-weight: 700; }
+    .cat-link:hover { color: var(--brand-blue); background: #f4f6ff; }
+    .cat-link.active { color: var(--brand-blue); font-weight: 700; background: #eef2ff; }
 
     .cat-icon-wrap {
-        width: 22px;
-        height: 22px;
+        width: 24px;
+        height: 24px;
         border-radius: 50%;
-        background: rgba(255,0,0,.08);
+        background: linear-gradient(135deg, #dbeafe, #ede9fe);
         display: flex;
         align-items: center;
         justify-content: center;
         flex-shrink: 0;
     }
-    .cat-icon-wrap i { font-size: 9px; color: var(--brand-red); }
+    .cat-icon-wrap i { font-size: 9px; color: var(--brand-blue); }
 
     .subcat-toggle-btn {
         border: none;
@@ -124,63 +128,63 @@
         padding: 6px;
         transition: color .2s ease, transform .2s ease;
     }
-    .subcat-toggle-btn:hover { color: var(--brand-red); }
+    .subcat-toggle-btn:hover { color: var(--brand-blue); }
     .subcat-toggle-btn i.rotate-90 { transform: rotate(90deg); }
 
     .subcat-list {
-        margin-left: 24px;
+        margin-left: 26px;
         padding-left: 12px;
-        border-left: 2px solid #eee;
+        border-left: 2px dashed #e5e7ff;
     }
     .subcat-list a {
         display: block;
-        padding: 6px 6px;
-        font-size: .78rem;
+        padding: 6px 8px;
+        font-size: .8rem;
         color: #6b7280;
         text-decoration: none;
-        border-radius: 6px;
+        border-radius: 8px;
         transition: color .2s ease;
     }
-    .subcat-list a:hover { color: var(--brand-red); }
-    .subcat-list a.active { color: var(--brand-red); font-weight: 700; }
+    .subcat-list a:hover { color: var(--brand-blue); background: #f4f6ff; }
+    .subcat-list a.active { color: var(--brand-blue); font-weight: 700; }
 
     /* ── Breadcrumb ──────────────────────────────────── */
     .breadcrumb-box {
-        background: var(--brand-white);
-        border-radius: 12px;
-        padding: 12px 16px;
-        margin-bottom: 20px;
-        box-shadow: 0 1px 4px rgba(0,0,0,0.05);
-        border: 1px solid #f1f1f1;
+        background: #fff;
+        border-radius: 18px;
+        padding: 14px 18px;
+        margin-bottom: 22px;
+        box-shadow: 0 4px 16px rgba(99,102,241,.06);
+        border: 1px solid #eef0fb;
     }
-    .breadcrumb-box a { color: #6b7280; text-decoration: none; font-weight: 500; font-size: .78rem; }
-    .breadcrumb-box a:hover { color: var(--brand-red); }
-    .breadcrumb-box .current { color: var(--brand-red); font-weight: 700; font-size: .78rem; }
+    .breadcrumb-box a { color: #6b7280; text-decoration: none; font-weight: 600; font-size: .8rem; }
+    .breadcrumb-box a:hover { color: var(--brand-blue); }
+    .breadcrumb-box .current { color: var(--brand-blue); font-weight: 700; font-size: .8rem; }
     .breadcrumb-box .sep { font-size: 9px; color: #d1d5db; }
     .item-count-badge {
-        background: rgba(255,0,0,.08);
-        color: var(--brand-red);
+        background: var(--brand-gradient);
+        color: #fff;
         font-size: .68rem;
         font-weight: 700;
-        padding: 2px 9px;
+        padding: 3px 11px;
         border-radius: 50px;
     }
 
     /* ── Product Grid ────────────────────────────────── */
     .product-card-bs {
-        background: var(--brand-white);
-        border-radius: 12px;
-        box-shadow: 0 1px 4px rgba(0,0,0,0.06);
-        border: 1px solid #f1f1f1;
+        background: #fff;
+        border-radius: 20px;
+        box-shadow: 0 4px 16px rgba(99,102,241,.07);
+        border: 1px solid #f1f2fb;
         overflow: hidden;
-        transition: box-shadow .4s ease, transform .4s ease;
+        transition: box-shadow .35s ease, transform .35s ease;
         display: flex;
         flex-direction: column;
         height: 100%;
     }
     .product-card-bs:hover {
-        box-shadow: 0 14px 30px rgba(0,0,0,0.12);
-        transform: translateY(-4px);
+        box-shadow: 0 16px 34px rgba(99,102,241,.16);
+        transform: translateY(-5px);
     }
     .product-card-bs .img-wrap {
         position: relative;
@@ -203,25 +207,22 @@
 
     .discount-tag {
         position: absolute;
-        top: 0;
+        top: 10px;
         left: 10px;
         z-index: 5;
-        background: var(--brand-red);
+        background: var(--brand-gradient);
         color: #fff;
         font-weight: 800;
-        text-align: center;
-        width: 46px;
-        padding: 7px 4px 16px;
-        clip-path: polygon(0 0, 100% 0, 100% 100%, 50% 82%, 0 100%);
-        line-height: 1.3;
+        font-size: .72rem;
+        padding: 5px 10px;
+        border-radius: 50px;
+        box-shadow: 0 4px 10px rgba(37,99,235,.3);
     }
-    .discount-tag .amt { font-size: 12px; font-weight: 900; }
-    .discount-tag .lbl { font-size: 8px; font-weight: 700; letter-spacing: 1.2px; opacity: .9; }
 
     .product-card-bs .p-body { padding: 14px; display: flex; flex-direction: column; flex: 1; }
     .product-card-bs .p-title {
         font-size: .88rem;
-        color: var(--brand-black);
+        color: var(--brand-dark);
         margin-bottom: 8px;
         min-height: 38px;
         display: -webkit-box;
@@ -230,49 +231,71 @@
         overflow: hidden;
         text-decoration: none;
         transition: color .2s ease;
+        font-weight: 600;
     }
-    .product-card-bs:hover .p-title { color: var(--brand-red); }
+    .product-card-bs:hover .p-title { color: var(--brand-blue); }
 
-    .p-price-new { font-size: 1rem; font-weight: 800; color: var(--brand-black); }
-    .p-price-old { font-size: .8rem; color: var(--brand-red); text-decoration: line-through; opacity: .65; }
+    .p-price-new { font-size: 1.05rem; font-weight: 800; color: var(--brand-purple); }
+    .p-price-old { font-size: .8rem; color: #9ca3af; text-decoration: line-through; }
 
     .btn-order {
         margin-top: auto;
         width: 100%;
-        background: var(--brand-red);
+        background: var(--brand-gradient);
         color: #fff;
         border: none;
-        padding: 10px;
+        padding: 11px;
         border-radius: 50px;
         font-weight: 700;
-        font-size: .8rem;
+        font-size: .82rem;
         display: flex;
         align-items: center;
         justify-content: center;
         gap: 6px;
-        transition: background .25s ease;
+        transition: transform .18s ease, box-shadow .18s ease;
+        box-shadow: 0 8px 18px rgba(37,99,235,.25);
     }
-    .btn-order:hover { background: var(--brand-black); color: #fff; }
+    .btn-order:hover { color: #fff; transform: translateY(-2px); box-shadow: 0 12px 24px rgba(37,99,235,.32); }
 
     .empty-state {
-        background: var(--brand-white);
-        border-radius: 12px;
+        background: #fff;
+        border-radius: 20px;
         padding: 70px 20px;
         text-align: center;
-        border: 1px solid #f1f1f1;
+        border: 1px solid #eef0fb;
+        box-shadow: 0 4px 16px rgba(99,102,241,.06);
     }
-    .empty-state i { font-size: 3.2rem; color: #e5e7eb; margin-bottom: 14px; }
-    .empty-state a { color: var(--brand-red); font-weight: 700; text-decoration: none; }
+    .empty-state i { font-size: 3.4rem; color: #dbeafe; margin-bottom: 14px; }
+    .empty-state a { color: var(--brand-blue); font-weight: 700; text-decoration: none; }
     .empty-state a:hover { text-decoration: underline; }
 
     .products-grid {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 16px;
-}
-@media (min-width: 768px) {
-    .products-grid { grid-template-columns: repeat(3, 1fr); }
-}
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 18px;
+    }
+    @media (min-width: 768px) {
+        .products-grid { grid-template-columns: repeat(3, 1fr); }
+    }
+
+    .page-heading-icon {
+        width: 42px;
+        height: 42px;
+        border-radius: 14px;
+        background: var(--brand-gradient);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.15rem;
+        flex-shrink: 0;
+        box-shadow: 0 8px 18px rgba(37,99,235,.25);
+    }
+
+    #mobileFilterToggle {
+        background: var(--brand-gradient) !important;
+        border-radius: 50px !important;
+        box-shadow: 0 8px 18px rgba(37,99,235,.25);
+    }
 </style>
 
 <section>
@@ -284,14 +307,12 @@
         <li>
           <a href="/" class="d-flex align-items-center gap-1">
             <i class="fas fa-home" style="font-size:10px;"></i>
-            {{ \App\Helpers\TranslateHelper::translate('Home') }}
+            হোম
           </a>
         </li>
         <li><i class="fas fa-chevron-right sep"></i></li>
         <li>
-          <a href="{{ route('products') }}">
-            {{ \App\Helpers\TranslateHelper::translate('Products') }}
-          </a>
+          <a href="{{ route('products') }}">সকল পণ্য</a>
         </li>
         @if(!empty($breadcrumbs))
           @foreach($breadcrumbs as $crumb)
@@ -305,7 +326,7 @@
             @else
               <li class="d-flex align-items-center gap-2">
                 <span class="current">{{ \App\Helpers\TranslateHelper::translate($crumb['name']) }}</span>
-                <span class="item-count-badge">{{ $products->count() }} {{ \App\Helpers\TranslateHelper::translate('items') }}</span>
+                <span class="item-count-badge">{{ $products->count() }} টি আইটেম</span>
               </li>
             @endif
           @endforeach
@@ -313,7 +334,7 @@
           <li><i class="fas fa-chevron-right sep"></i></li>
           <li class="d-flex align-items-center gap-2">
             <span class="current">{{ \App\Helpers\TranslateHelper::translate($categoryName) }}</span>
-            <span class="item-count-badge">{{ $products->count() }} {{ \App\Helpers\TranslateHelper::translate('items') }}</span>
+            <span class="item-count-badge">{{ $products->count() }} টি আইটেম</span>
           </li>
         @endif
       </ol>
@@ -335,7 +356,7 @@
           {{-- Availability --}}
           <div class="sidebar-section">
             <h3 class="sidebar-section__title" onclick="toggleSection('availSection')">
-              Availability
+              স্টক অবস্থা
               <i class="fas fa-chevron-up" id="availSectionIcon"></i>
             </h3>
             <div id="availSection">
@@ -344,14 +365,14 @@
                   id="inStockCheck"
                   {{ in_array('in_stock', request('availability', [])) ? 'checked' : '' }}
                   onchange="document.getElementById('filterForm').submit()">
-                <label class="form-check-label" for="inStockCheck">In Stock</label>
+                <label class="form-check-label" for="inStockCheck">স্টকে আছে</label>
               </div>
               <div class="form-check">
                 <input class="form-check-input" type="checkbox" name="availability[]" value="out_of_stock"
                   id="outStockCheck"
                   {{ in_array('out_of_stock', request('availability', [])) ? 'checked' : '' }}
                   onchange="document.getElementById('filterForm').submit()">
-                <label class="form-check-label" for="outStockCheck">Out of Stock</label>
+                <label class="form-check-label" for="outStockCheck">স্টক নেই</label>
               </div>
             </div>
           </div>
@@ -359,7 +380,7 @@
           {{-- Price Filter --}}
           <div class="sidebar-section">
             <h3 class="sidebar-section__title" onclick="toggleSection('priceSection')">
-              Filter By Price
+              মূল্য অনুযায়ী ফিল্টার
               <i class="fas fa-chevron-up" id="priceSectionIcon"></i>
             </h3>
             <div id="priceSection">
@@ -376,7 +397,7 @@
                 <span class="price-box">{{ currency() }}<span id="maxPriceDisplay">{{ $filterMax }}</span></span>
               </div>
               <button type="submit" class="btn btn-brand w-100 py-2 rounded-pill d-flex align-items-center justify-content-center gap-2">
-                Apply Filter <i class="fas fa-arrow-right"></i>
+                ফিল্টার প্রয়োগ করো <i class="fas fa-arrow-right"></i>
               </button>
             </div>
           </div>
@@ -384,7 +405,7 @@
           {{-- Categories --}}
           <div class="sidebar-section">
             <h3 class="sidebar-section__title" onclick="toggleSection('catSection')">
-              Categories
+              ক্যাটাগরিসমূহ
               <i class="fas fa-chevron-up" id="catSectionIcon"></i>
             </h3>
             <div id="catSection">
@@ -395,7 +416,7 @@
                     class="cat-link {{ request('category') == $cat->id ? 'active' : '' }}"
                     onclick="trackCategoryView('{{ $cat->id }}', '{{ addslashes($cat->name) }}')">
                     @if($cat->image)
-                      <img src="{{ Storage::url($cat->image) }}" style="width:22px;height:22px;border-radius:50%;object-fit:cover;flex-shrink:0;">
+                      <img src="{{ Storage::url($cat->image) }}" style="width:24px;height:24px;border-radius:50%;object-fit:cover;flex-shrink:0;">
                     @else
                       <span class="cat-icon-wrap"><i class="fas fa-tag"></i></span>
                     @endif
@@ -428,14 +449,14 @@
         </form>
       </aside>
 
-      {{-- ══ MOBILE FILTER PANEL (শুধু mobile/tablet-এ দেখাবে) ══ --}}
+      {{-- ══ MOBILE FILTER PANEL ══ --}}
   <div class="d-lg-none mb-4">
-      <p class="text-muted small mb-2">Find Your Favorite Products Here..</p>
+      <p class="text-muted small mb-2">তোমার পছন্দের পণ্য খুঁজে নাও..</p>
 
-      <button type="button" class="btn w-100 d-flex align-items-center justify-content-center gap-2 fw-bold"
+      <button type="button" class="btn w-100 d-flex align-items-center justify-content-center gap-2 fw-bold text-white"
           id="mobileFilterToggle"
-          style="background:var(--brand-black); color:#fff; border-radius:8px; padding:12px;">
-          <span id="mobileFilterToggleText">Show Filters</span>
+          style="padding:12px;">
+          <span id="mobileFilterToggleText">ফিল্টার দেখাও</span>
           <i class="fas fa-chevron-down" id="mobileFilterToggleIcon" style="transition:transform .2s ease;"></i>
       </button>
 
@@ -444,27 +465,27 @@
 
               {{-- Search --}}
               <div class="mb-3">
-                  <label class="form-label fw-bold small">Search</label>
-                  <input type="text" name="search" class="form-control" placeholder="Search products..."
+                  <label class="form-label fw-bold small">খুঁজুন</label>
+                  <input type="text" name="search" class="form-control" placeholder="পণ্যের নাম লিখো..."
                       value="{{ request('search') }}">
               </div>
 
               {{-- Price --}}
               <div class="mb-3">
-                  <label class="form-label fw-bold small">Price</label>
+                  <label class="form-label fw-bold small">মূল্য</label>
                   <div class="d-flex gap-2">
-                      <input type="number" name="price_min" class="form-control" placeholder="Min"
+                      <input type="number" name="price_min" class="form-control" placeholder="সর্বনিম্ন"
                           value="{{ request('price_min') }}">
-                      <input type="number" name="price_max" class="form-control" placeholder="Max"
+                      <input type="number" name="price_max" class="form-control" placeholder="সর্বোচ্চ"
                           value="{{ request('price_max') }}">
                   </div>
               </div>
 
               {{-- Main Category --}}
               <div class="mb-3">
-                  <label class="form-label fw-bold small">Main Category</label>
+                  <label class="form-label fw-bold small">প্রধান ক্যাটাগরি</label>
                   <select name="category" id="mobileCategorySelect" class="form-select">
-                      <option value="">All main categories</option>
+                      <option value="">সব প্রধান ক্যাটাগরি</option>
                       @foreach($allCategories as $cat)
                       <option value="{{ $cat->id }}" {{ request('category') == $cat->id ? 'selected' : '' }}>
                           {{ \App\Helpers\TranslateHelper::translate($cat->name) }}
@@ -475,9 +496,9 @@
 
               {{-- Sub Category --}}
               <div class="mb-3">
-                  <label class="form-label fw-bold small">Sub Category</label>
+                  <label class="form-label fw-bold small">সাব ক্যাটাগরি</label>
                   <select name="sub_category" id="mobileSubCategorySelect" class="form-select">
-                      <option value="">All sub categories</option>
+                      <option value="">সব সাব ক্যাটাগরি</option>
                       @foreach($allCategories as $cat)
                           @foreach($cat->subCategories as $sub)
                           <option value="{{ $sub->id }}"
@@ -493,19 +514,19 @@
 
               {{-- Sort --}}
               <div class="mb-3">
-                  <label class="form-label fw-bold small">Sort</label>
+                  <label class="form-label fw-bold small">সাজাও</label>
                   <select name="sort" class="form-select">
-                      <option value="relevance" {{ request('sort', 'relevance') == 'relevance' ? 'selected' : '' }}>Relevance</option>
-                      <option value="newest" {{ request('sort') == 'newest' ? 'selected' : '' }}>Newest First</option>
-                      <option value="price_low" {{ request('sort') == 'price_low' ? 'selected' : '' }}>Price: Low to High</option>
-                      <option value="price_high" {{ request('sort') == 'price_high' ? 'selected' : '' }}>Price: High to Low</option>
+                      <option value="relevance" {{ request('sort', 'relevance') == 'relevance' ? 'selected' : '' }}>প্রাসঙ্গিকতা</option>
+                      <option value="newest" {{ request('sort') == 'newest' ? 'selected' : '' }}>নতুন প্রথমে</option>
+                      <option value="price_low" {{ request('sort') == 'price_low' ? 'selected' : '' }}>মূল্য: কম থেকে বেশি</option>
+                      <option value="price_high" {{ request('sort') == 'price_high' ? 'selected' : '' }}>মূল্য: বেশি থেকে কম</option>
                   </select>
               </div>
 
               {{-- Apply / Clear --}}
               <div class="d-flex gap-2">
-                  <button type="submit" class="btn btn-brand flex-fill py-2 rounded-pill fw-bold">Apply</button>
-                  <a href="{{ route('products') }}" class="btn btn-outline-secondary flex-fill py-2 rounded-pill fw-bold text-center">Clear</a>
+                  <button type="submit" class="btn btn-brand flex-fill py-2 rounded-pill fw-bold">প্রয়োগ করো</button>
+                  <a href="{{ route('products') }}" class="btn btn-outline-secondary flex-fill py-2 rounded-pill fw-bold text-center">মুছে ফেলো</a>
               </div>
 
           </form>
@@ -516,13 +537,14 @@
         <div class="col-lg-9">
 
             {{-- Header --}}
-            <div class="d-flex align-items-center justify-content-between mb-4">
+            <div class="d-flex align-items-center gap-3 mb-4">
+                <div class="page-heading-icon">🛍️</div>
                 <div>
-                    <h1 class="fw-black h4 mb-1" style="color:var(--brand-black);font-weight:800;">
+                    <h1 class="fw-black h4 mb-1" style="color:var(--brand-dark);font-weight:800;">
                         {{ \App\Helpers\TranslateHelper::translate($categoryName) }}
                     </h1>
                     <p class="text-muted small mb-0">
-                        {{ $products->count() }} {{ $products->count() == 1 ? \App\Helpers\TranslateHelper::translate('product') : \App\Helpers\TranslateHelper::translate('products') }} found
+                        {{ $products->count() }} টি {{ $products->count() == 1 ? 'পণ্য' : 'পণ্য' }} পাওয়া গেছে
                     </p>
                 </div>
             </div>
@@ -530,8 +552,8 @@
             @if($products->isEmpty())
                 <div class="empty-state">
                     <i class="fas fa-box-open"></i>
-                    <p class="text-muted fw-medium small mb-0">No products found.</p>
-                    <a href="{{ route('products') }}" class="d-inline-block mt-3">Clear filters</a>
+                    <p class="text-muted fw-medium small mb-0">কোনো পণ্য পাওয়া যায়নি।</p>
+                    <a href="{{ route('products') }}" class="d-inline-block mt-3">ফিল্টার মুছে ফেলো</a>
                 </div>
             @else
                 <div class="products-grid">
@@ -542,22 +564,20 @@
                             ? round(($discount_amount / $item->regular_price) * 100)
                             : 0;
 
-                        // ✅ Wishlist status check
                         $isWishlisted = auth()->check()
                             ? auth()->user()->wishlists()->where('product_id', $item->id)->exists()
                             : false;
                     @endphp
 
-                    <div class="product-card">
+                    <div class="product-card-bs">
                         <a href="{{ route('product.single', $item->slug) }}"
                           onclick="trackProductClick('{{ $item->id }}', '{{ addslashes($item->name) }}', {{ $item->sale_price }}, '{{ addslashes($categoryName) }}')">
 
-                            <div class="product-img-wrap">
+                            <div class="img-wrap">
                                 @if($item->regular_price > $item->sale_price)
                                 <span class="discount-tag">-{{ $discount_percentage }}%</span>
                                 @endif
 
-                                {{-- ✅ Wishlist button — dynamic filled/outline heart --}}
                                 <button class="wishlist-btn add-to-wishlist {{ $isWishlisted ? 'active-wish' : '' }}"
                                     data-id="{{ $item->id }}"
                                     onclick="event.preventDefault();">
@@ -575,20 +595,18 @@
                                 @endif
                             </div>
 
-                            <div class="product-body">
-                                <h3 class="product-title">{{ \App\Helpers\TranslateHelper::translate($item->name) }}</h3>
-                                <div class="product-price">
+                            <div class="p-body">
+                                <h3 class="p-title">{{ \App\Helpers\TranslateHelper::translate($item->name) }}</h3>
+                                <div class="mb-2">
                                     @if($item->regular_price > $item->sale_price)
-                                    <span class="price-old">{{ currency() }}{{ number_format($item->regular_price, 2) }}</span>
+                                    <span class="p-price-old me-1">{{ currency() }}{{ number_format($item->regular_price, 2) }}</span>
                                     @endif
-                                    <span class="price-new">{{ currency() }}{{ number_format($item->sale_price, 2) }}</span>
+                                    <span class="p-price-new">{{ currency() }}{{ number_format($item->sale_price, 2) }}</span>
                                 </div>
-                                <div class="product-btn-group">
-                                    <button type="button" class="btn-order-now"
-                                        onclick="trackProductClick('{{ $item->id }}', '{{ addslashes($item->name) }}', {{ $item->sale_price }}, '{{ addslashes($categoryName) }}'); window.location.href='{{ route('product.single', $item->slug) }}';">
-                                        Order Now
-                                    </button>
-                                </div>
+                                <button type="button" class="btn-order"
+                                    onclick="trackProductClick('{{ $item->id }}', '{{ addslashes($item->name) }}', {{ $item->sale_price }}, '{{ addslashes($categoryName) }}'); window.location.href='{{ route('product.single', $item->slug) }}';">
+                                    অর্ডার করো
+                                </button>
                             </div>
                         </a>
                     </div>
@@ -628,7 +646,6 @@
     maxSlider.addEventListener('input', updateSlider);
     updateSlider();
 })();
-
 
 function trackProductClick(productId, productName, price, listName) {
     window.dataLayer = window.dataLayer || [];
@@ -675,7 +692,6 @@ function trackCategoryView(categoryId, categoryName) {
     });
 }
 
-// ── Toggle Sidebar Sections ─────────────────────────
 function toggleSection(id) {
     const el   = document.getElementById(id);
     const icon = document.getElementById(id + 'Icon');
@@ -684,7 +700,6 @@ function toggleSection(id) {
     if (icon) icon.classList.toggle('rotate-180');
 }
 
-// ── Toggle Subcategory List ─────────────────────────
 function toggleSubCat(id) {
     const el = document.getElementById(id);
     if (!el) return;
@@ -694,7 +709,6 @@ function toggleSubCat(id) {
     document.querySelectorAll('.sub-icon-' + catId).forEach(i => i.classList.toggle('rotate-90'));
 }
 </script>
-
 
 <script>
     document.addEventListener('DOMContentLoaded', function () {
@@ -728,7 +742,6 @@ function toggleSubCat(id) {
 </script>
 
 <script>
-// ── Mobile Filter Panel Toggle ──────────────────────
 (function () {
     const toggleBtn  = document.getElementById('mobileFilterToggle');
     const panel      = document.getElementById('mobileFilterPanel');
@@ -736,22 +749,20 @@ function toggleSubCat(id) {
     const toggleIcon = document.getElementById('mobileFilterToggleIcon');
     if (!toggleBtn) return;
 
-    // ✅ auto-open লজিক সরিয়ে দেওয়া হলো — panel সবসময় বন্ধ থাকবে, শুধু বাটনে ক্লিক করলেই খুলবে
     toggleBtn.addEventListener('click', function () {
         const isHidden = panel.classList.contains('d-none');
         if (isHidden) {
             panel.classList.remove('d-none');
-            toggleText.textContent = 'Hide Filters';
+            toggleText.textContent = 'ফিল্টার লুকাও';
             toggleIcon.style.transform = 'rotate(180deg)';
         } else {
             panel.classList.add('d-none');
-            toggleText.textContent = 'Show Filters';
+            toggleText.textContent = 'ফিল্টার দেখাও';
             toggleIcon.style.transform = 'rotate(0deg)';
         }
     });
 })();
 
-// ── Mobile: Category বদলালে Sub Category options filter হবে ──
 (function () {
     const catSelect    = document.getElementById('mobileCategorySelect');
     const subSelect    = document.getElementById('mobileSubCategorySelect');

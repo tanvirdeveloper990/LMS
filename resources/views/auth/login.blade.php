@@ -4,78 +4,119 @@
 @section('content')
 <style>
     .auth-section {
-        background: var(--bg-light);
+        background: linear-gradient(160deg, #eaf1ff 0%, #f3ecff 45%, #fdf1f7 100%);
         padding: 60px 0;
-        min-height: 80vh;
+        min-height: 85vh;
         display: flex;
         align-items: center;
+        position: relative;
+        overflow: hidden;
     }
 
+    /* ── Floating decorative blobs (cartoon feel) ────────── */
+    .auth-blob {
+        position: absolute;
+        border-radius: 50%;
+        opacity: .55;
+        filter: blur(2px);
+        animation: floatBlob 6s ease-in-out infinite;
+        pointer-events: none;
+        z-index: 0;
+    }
+    .auth-blob--1 { width: 90px; height: 90px; background: #bfdbfe; top: 8%; left: 8%; animation-delay: 0s; }
+    .auth-blob--2 { width: 60px; height: 60px; background: #fbcfe8; top: 15%; right: 10%; animation-delay: 1s; }
+    .auth-blob--3 { width: 70px; height: 70px; background: #ddd6fe; bottom: 12%; left: 12%; animation-delay: 2s; }
+    .auth-blob--4 { width: 50px; height: 50px; background: #bbf7d0; bottom: 18%; right: 8%; animation-delay: 1.5s; }
+    .auth-emoji {
+        position: absolute;
+        font-size: 1.8rem;
+        opacity: .85;
+        animation: floatBlob 5s ease-in-out infinite;
+        pointer-events: none;
+        z-index: 0;
+    }
+    .auth-emoji--1 { top: 10%; left: 18%; animation-delay: .3s; }
+    .auth-emoji--2 { top: 20%; right: 18%; animation-delay: 1.2s; }
+    .auth-emoji--3 { bottom: 22%; left: 20%; animation-delay: .8s; }
+    .auth-emoji--4 { bottom: 10%; right: 20%; animation-delay: 1.8s; }
+
+    @keyframes floatBlob {
+        0%, 100% { transform: translateY(0px); }
+        50% { transform: translateY(-16px); }
+    }
+
+    /* ── Card ─────────────────────────────────────────────── */
     .auth-card {
         background: #fff;
-        border-radius: var(--radius-lg);
-        box-shadow: var(--shadow-md);
-        padding: 40px;
-        border-top: 4px solid var(--primary);
+        border-radius: 28px;
+        box-shadow: 0 20px 50px rgba(79, 70, 229, .12);
+        padding: 44px 40px;
+        position: relative;
+        z-index: 2;
+    }
+
+    .auth-icon-badge {
+        width: 74px;
+        height: 74px;
+        margin: 0 auto 16px;
+        border-radius: 22px;
+        background: linear-gradient(135deg, #2563eb 0%, #7c3aed 100%);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 2.1rem;
+        box-shadow: 0 10px 24px rgba(37, 99, 235, .3);
     }
 
     .auth-title {
-        font-family: var(--font-heading);
+        font-family: 'Hind Siliguri', 'Noto Sans Bengali', sans-serif;
         font-weight: 800;
-        font-size: 1.7rem;
-        color: var(--dark);
+        font-size: 1.5rem;
+        color: #1f2937;
         text-align: center;
         margin-bottom: 6px;
     }
 
     .auth-subtitle {
+        font-family: 'Hind Siliguri', 'Noto Sans Bengali', sans-serif;
         text-align: center;
-        color: var(--text-muted);
+        color: #6b7280;
         font-size: .9rem;
         margin-bottom: 28px;
     }
 
-    .auth-title-bar {
-        width: 50px;
-        height: 3px;
-        background: var(--primary);
-        border-radius: 3px;
-        margin: 0 auto 24px;
-    }
-
     .form-label {
-        font-weight: 600;
+        font-family: 'Hind Siliguri', 'Noto Sans Bengali', sans-serif;
+        font-weight: 700;
         font-size: .88rem;
-        color: var(--dark);
+        color: #374151;
+        margin-bottom: 6px;
     }
 
     .form-control {
-        border: 1.5px solid var(--border-color);
-        border-radius: var(--radius-sm);
-        padding: 11px 14px;
+        border: 2px solid #eef0f5;
+        background: #f9fafc;
+        border-radius: 14px;
+        padding: 12px 14px;
         font-size: .92rem;
+        transition: all .2s ease;
     }
-
     .form-control:focus {
-        border-color: var(--primary);
-        box-shadow: 0 0 0 4px var(--primary-light);
+        border-color: #2563eb;
+        background: #fff;
+        box-shadow: 0 0 0 4px rgba(37, 99, 235, .1);
     }
 
-    .input-group-icon {
-        position: relative;
-    }
-
-    .input-group-icon .form-control {
-        padding-left: 42px;
-    }
-
+    .input-group-icon { position: relative; }
+    .input-group-icon .form-control { padding-left: 44px; }
     .input-group-icon i.field-icon {
         position: absolute;
-        left: 14px;
+        left: 15px;
         top: 50%;
         transform: translateY(-50%);
-        color: var(--text-muted);
+        color: #9ca3af;
         z-index: 5;
+        font-size: .92rem;
     }
 
     .toggle-eye {
@@ -84,73 +125,111 @@
         top: 50%;
         transform: translateY(-50%);
         cursor: pointer;
-        color: var(--text-muted);
+        color: #9ca3af;
         z-index: 5;
         background: none;
         border: none;
+        padding: 4px;
     }
+    .toggle-eye:hover { color: #2563eb; }
 
-    .toggle-eye:hover {
-        color: var(--primary);
-    }
-
-    .btn-auth {
-        background: var(--primary);
-        color: #fff;
-        font-weight: 700;
-        border-radius: 50px;
-        padding: 12px;
-        border: none;
-        transition: var(--transition);
-    }
-
+        .btn-auth {
+            background: linear-gradient(135deg, #2563eb 0%, #7c3aed 100%);
+            color: #fff;
+            font-family: 'Hind Siliguri', 'Noto Sans Bengali', sans-serif;
+            font-weight: 700;
+            font-size: 1rem;
+            border-radius: 50px;
+            padding: 13px;
+            border: none;
+            box-shadow: 0 10px 24px rgba(37, 99, 235, .28);
+            transition: transform .18s ease, box-shadow .18s ease;
+            text-align: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
     .btn-auth:hover {
-        background: var(--primary-dark);
         color: #fff;
+        transform: translateY(-2px);
+        box-shadow: 0 14px 30px rgba(37, 99, 235, .36);
     }
+    .btn-auth:active { transform: translateY(0); }
+    .btn-auth:disabled { opacity: .7; cursor: not-allowed; transform: none; }
 
     .auth-link {
-        color: var(--primary);
-        font-weight: 600;
+        color: #2563eb;
+        font-weight: 700;
         text-decoration: none;
+        font-family: 'Hind Siliguri', 'Noto Sans Bengali', sans-serif;
     }
-
-    .auth-link:hover {
-        color: var(--primary-dark);
-        text-decoration: underline;
-    }
+    .auth-link:hover { color: #7c3aed; text-decoration: underline; }
 
     .form-check-input:checked {
-        background-color: var(--primary);
-        border-color: var(--primary);
+        background-color: #2563eb;
+        border-color: #2563eb;
+    }
+    .form-check-input:focus {
+        box-shadow: 0 0 0 3px rgba(37, 99, 235, .12);
+        border-color: #2563eb;
+    }
+    .form-check-label {
+        font-family: 'Hind Siliguri', 'Noto Sans Bengali', sans-serif;
+        font-size: .84rem;
+        color: #4b5563;
     }
 
     .alert-custom-error {
-        background: #fdeceb;
-        border-left: 4px solid var(--primary);
-        color: var(--dark);
-        border-radius: var(--radius-sm);
+        background: #fef2f2;
+        border-left: 4px solid #ef4444;
+        color: #7f1d1d;
+        border-radius: 12px;
+        padding: 14px 16px;
+        font-family: 'Hind Siliguri', 'Noto Sans Bengali', sans-serif;
     }
 
+    .footer-note {
+        font-family: 'Hind Siliguri', 'Noto Sans Bengali', sans-serif;
+    }
     .footer-note a {
-        color: var(--primary);
+        color: #2563eb;
         text-decoration: none;
+        font-weight: 600;
+    }
+    .footer-note a:hover { text-decoration: underline; }
+
+    p.text-center.mt-4,
+    p.text-center.mb-0 {
+        font-family: 'Hind Siliguri', 'Noto Sans Bengali', sans-serif;
     }
 
-    .footer-note a:hover {
-        text-decoration: underline;
+    @media (max-width: 480px) {
+        .auth-card { padding: 34px 24px; border-radius: 22px; }
+        .auth-emoji, .auth-blob { display: none; }
     }
 </style>
 
 <section class="auth-section">
-    <div class="container">
+
+    {{-- Decorative floating shapes --}}
+    <div class="auth-blob auth-blob--1"></div>
+    <div class="auth-blob auth-blob--2"></div>
+    <div class="auth-blob auth-blob--3"></div>
+    <div class="auth-blob auth-blob--4"></div>
+    <div class="auth-emoji auth-emoji--1">📚</div>
+    <div class="auth-emoji auth-emoji--2">✨</div>
+    <div class="auth-emoji auth-emoji--3">🎓</div>
+    <div class="auth-emoji auth-emoji--4">🏆</div>
+
+    <div class="container" style="position:relative; z-index:2;">
         <div class="row justify-content-center">
-            <div class="col-lg-4 col-md-6">
+            <div class="col-lg-5 col-md-7 col-sm-8">
                 <div class="auth-card">
 
-                    <h2 class="auth-title">{{ \App\Helpers\TranslateHelper::translate('Welcome Back') }}</h2>
-                    <p class="auth-subtitle">{{ \App\Helpers\TranslateHelper::translate('Login to your account to continue') }}</p>
-                    <div class="auth-title-bar"></div>
+                    <div class="auth-icon-badge">🎓</div>
+
+                    <h2 class="auth-title">আবার স্বাগতম!</h2>
+                    <p class="auth-subtitle">চালিয়ে যেতে তোমার অ্যাকাউন্টে লগ ইন করো</p>
 
                     @if($errors->any())
                     <div class="alert alert-custom-error alert-dismissible fade show mb-4" role="alert">
@@ -163,17 +242,17 @@
                     </div>
                     @endif
 
-                    <form action="{{ route('login') }}" method="POST">
+                    <form action="{{ route('login') }}" method="POST" id="loginForm">
                         @csrf
 
                         <div class="mb-3">
-                            <label for="email" class="form-label">{{ \App\Helpers\TranslateHelper::translate('Email Address') }}</label>
+                            <label for="email" class="form-label">ইমেইল ঠিকানা</label>
                             <div class="input-group-icon">
                                 <i class="fas fa-envelope field-icon"></i>
                                 <input type="email"
                                     class="form-control @error('email') is-invalid @enderror"
                                     id="email" name="email"
-                                    placeholder="john@example.com"
+                                    placeholder="example@email.com"
                                     value="{{ old('email') }}"
                                     required>
                             </div>
@@ -183,13 +262,13 @@
                         </div>
 
                         <div class="mb-3">
-                            <label for="password" class="form-label">{{ \App\Helpers\TranslateHelper::translate('Password') }}</label>
+                            <label for="password" class="form-label">পাসওয়ার্ড</label>
                             <div class="input-group-icon position-relative">
                                 <i class="fas fa-lock field-icon"></i>
                                 <input type="password"
                                     class="form-control @error('password') is-invalid @enderror"
                                     id="password" name="password"
-                                    placeholder="{{ \App\Helpers\TranslateHelper::translate('Enter your password') }}"
+                                    placeholder="তোমার পাসওয়ার্ড লিখো"
                                     required style="padding-right:42px;">
                                 <button type="button" class="toggle-eye" id="togglePassword">
                                     <i class="fas fa-eye" id="eyeIcon"></i>
@@ -204,37 +283,23 @@
                             <div class="form-check">
                                 <input type="checkbox" class="form-check-input" id="remember" name="remember"
                                     {{ old('remember') ? 'checked' : '' }}>
-                                <label class="form-check-label small" for="remember">
-                                    {{ \App\Helpers\TranslateHelper::translate('Remember Me') }}
-                                </label>
+                                <label class="form-check-label" for="remember">মনে রাখো</label>
                             </div>
                             <a href="{{ route('password.request') }}" class="auth-link small">
-                                {{ \App\Helpers\TranslateHelper::translate('Forgot Password?') }}
+                                পাসওয়ার্ড ভুলে গেছো?
                             </a>
                         </div>
 
-                        <button type="submit" class="btn btn-auth w-100">
-                            <i class="fas fa-sign-in-alt me-2"></i>
-                            {{ \App\Helpers\TranslateHelper::translate('Login to Account') }}
+                        <button type="submit" class="btn btn-auth w-100" id="loginBtn">
+                            <span id="loginBtnText">লগ ইন করো</span>
                         </button>
 
                         <p class="text-center mt-4 text-muted small mb-0">
-                            {{ \App\Helpers\TranslateHelper::translate("Don't have an account?") }}
-                            <a href="{{ route('register') }}" class="auth-link">
-                                {{ \App\Helpers\TranslateHelper::translate('Register Now') }}
-                            </a>
+                            অ্যাকাউন্ট নেই?
+                            <a href="{{ route('register') }}" class="auth-link">রেজিস্ট্রেশন করো</a>
                         </p>
                     </form>
 
-                </div>
-
-                <div class="text-center mt-4 footer-note">
-                    <p class="small text-muted">
-                        {{ \App\Helpers\TranslateHelper::translate('By continuing, you agree to our') }}
-                        <a href="#">{{ \App\Helpers\TranslateHelper::translate('Terms of Service') }}</a>
-                        {{ \App\Helpers\TranslateHelper::translate('and') }}
-                        <a href="#">{{ \App\Helpers\TranslateHelper::translate('Privacy Policy') }}</a>
-                    </p>
                 </div>
             </div>
         </div>
@@ -259,11 +324,20 @@
         });
     }
 
+    const loginForm = document.getElementById('loginForm');
+    const loginBtn = document.getElementById('loginBtn');
+    const loginBtnText = document.getElementById('loginBtnText');
+
+    if (loginForm && loginBtn) {
+        loginForm.addEventListener('submit', function() {
+            loginBtn.disabled = true;
+            loginBtnText.textContent = "লগ ইন হচ্ছে...";
+        });
+    }
+
     setTimeout(function() {
         const alerts = document.querySelectorAll('[role="alert"]');
-        alerts.forEach(alert => {
-            alert.classList.remove('show');
-        });
+        alerts.forEach(alert => alert.classList.remove('show'));
     }, 5000);
 </script>
 @endsection

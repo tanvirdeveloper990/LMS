@@ -19,6 +19,7 @@ use App\Http\Controllers\Admin\NavigationController;
 use App\Http\Controllers\Admin\LegalPolicyController;
 use App\Http\Controllers\Admin\ContactController;
 use App\Http\Controllers\Admin\CouponController;
+use App\Http\Controllers\Admin\CourseCategoryController;
 use App\Http\Controllers\Admin\CustomerContactController;
 use App\Http\Controllers\Admin\CustomerReviewController;
 use App\Http\Controllers\Admin\LevelSystemController;
@@ -38,8 +39,10 @@ use App\Http\Controllers\Admin\SubSubCategoryController;
 use App\Http\Controllers\Admin\TeamController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Admin\CustomerController;
+use App\Http\Controllers\Admin\EbookCategoryController;
 use App\Http\Controllers\Admin\EbookLibraryController;
 use App\Http\Controllers\Admin\FaqController;
+use App\Http\Controllers\Admin\PreparationCategoryController;
 use App\Http\Controllers\Admin\ShowroomController;
 use App\Http\Controllers\Admin\VendorsController;
 use App\Http\Controllers\Admin\WebController;
@@ -105,9 +108,23 @@ Route::prefix('admin')
         Route::get('ajax/subcategories/{category}', [ProductController::class, 'getSubCategories']);
         Route::get('ajax/subsubcategories/{subcategory}', [ProductController::class, 'getSubSubCategories']);
 
-        Route::post('categories/update-order', [CategoryController::class, 'updateOrder'])->name('categories.updateOrder');
-        Route::post('subcategories/update-order', [SubCategoryController::class, 'updateOrder'])->name('subcategories.updateOrder');
-        Route::resource('categories', CategoryController::class);
+
+       Route::post('subcategories/update-order', [SubCategoryController::class, 'updateOrder'])->name('subcategories.updateOrder');
+
+        // Shop Category (separate controller)
+        Route::post('shop-categories/update-order', [CategoryController::class, 'updateOrder'])->name('shop-categories.updateOrder');
+        Route::resource('shop-categories', CategoryController::class)->parameters(['shop-categories' => 'category']);
+
+        // Ebook Category (separate controller)
+        Route::post('ebook-categories/update-order', [EbookCategoryController::class, 'updateOrder'])->name('ebook-categories.updateOrder');
+        Route::resource('ebook-categories', EbookCategoryController::class);
+
+        Route::post('course-categories/update-order', [CourseCategoryController::class, 'updateOrder'])->name('course-categories.updateOrder');
+        Route::resource('course-categories', CourseCategoryController::class)->parameters(['course-categories' => 'category']);
+
+        Route::post('preparation-categories/update-order', [PreparationCategoryController::class, 'updateOrder'])->name('preparation-categories.updateOrder');
+        Route::resource('preparation-categories', PreparationCategoryController::class)->parameters(['preparation-categories' => 'category']);
+
         Route::resource('subcategories', SubCategoryController::class);
         Route::resource('subsubcategories', SubSubCategoryController::class)->parameters(['subsubcategories' => 'subSubCategory']);
         // Ajax for dynamic Product Subcategory

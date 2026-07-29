@@ -34,8 +34,11 @@ Route::post('/set-locale', function () {
 
 
 Route::get('/', [WebsiteController::class, 'index'])->name('index');
-Route::post('/category-sizes', [WebsiteController::class, 'categorySizes'])->name('category.sizes');
-Route::post('/category-products-by-size', [WebsiteController::class, 'categoryProductsBySize'])->name('category.products.bySize');
+
+Route::get('/ebooks', [WebsiteController::class, 'ebook'])->name('ebook');
+
+
+
 Route::get('/brands', [WebsiteController::class, 'brands'])->name('brands');
 Route::get('/showrooms', [WebsiteController::class, 'showrooms'])->name('showrooms');
 Route::get('/showrooms/{id}', [WebsiteController::class, 'showroomDetail'])->name('showroom.detail');

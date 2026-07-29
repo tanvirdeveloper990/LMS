@@ -9,9 +9,9 @@ use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 
-class CategoryController extends Controller
+class PreparationCategoryController extends Controller
 {
-    protected $type = 'shop';
+    protected $type = 'preparation';
 
     public function __construct()
     {
@@ -26,15 +26,15 @@ class CategoryController extends Controller
         $categories = Category::where('type', $this->type)
             ->orderBy('serial')->orderBy('id')->paginate(10);
 
-        return view('admin.categories.shop-categories.index', compact('categories'));
+        return view('admin.categories.preparation-categories.index', compact('categories'));
     }
 
     public function create()
     {
-        return view('admin.categories.shop-categories.create');
+        return view('admin.categories.preparation-categories.create');
     }
 
-   public function store(Request $request)
+    public function store(Request $request)
     {
         $request->validate([
             'name' => 'required|unique:categories,name|string|max:255',
@@ -45,6 +45,7 @@ class CategoryController extends Controller
 
         Category::create([
             'name'   => $request->name,
+            'text'   => $request->text,
             'slug'   => Str::slug($request->name),
             'type'   => $this->type,
             'image'  => $image,
@@ -52,38 +53,39 @@ class CategoryController extends Controller
             'status' => $request->status ?? 1,
         ]);
 
-        return redirect()->route('admin.shop-categories.index')->with('success', 'Category created successfully!');
+        return redirect()->route('admin.preparation-categories.index')->with('success', 'Category created successfully!');
     }
 
     public function edit(Category $category)
     {
-        return view('admin.categories.shop-categories.edit', compact('category'));
+        return view('admin.categories.preparation-categories.edit', compact('category'));
     }
 
-   public function update(Request $request, Category $category)
-{
-    $request->validate([
-        'name'   => 'required|string|max:255|unique:categories,name,' . $category->id,
-        'status' => 'required|in:0,1',
-    ]);
+    public function update(Request $request, Category $category)
+    {
+        $request->validate([
+            'name'   => 'required|string|max:255|unique:categories,name,' . $category->id,
+            'status' => 'required|in:0,1',
+        ]);
 
-    $data = [
-        'name'   => $request->name,
-        'slug'   => Str::slug($request->name),
-        'status' => $request->status,
-    ];
+        $data = [
+            'name'   => $request->name,
+            'text'   => $request->text,
+            'slug'   => Str::slug($request->name),
+            'status' => $request->status,
+        ];
 
-    if ($request->hasFile('image')) {
-        if ($category->image) {
-            Storage::disk('public')->delete($category->image);
+        if ($request->hasFile('image')) {
+            if ($category->image) {
+                Storage::disk('public')->delete($category->image);
+            }
+            $data['image'] = ImageHelper::uploadImage($request->file('image'));
         }
-        $data['image'] = ImageHelper::uploadImage($request->file('image'));
+
+        $category->update($data);
+
+        return redirect()->route('admin.preparation-categories.index')->with('success', 'Category updated successfully!');
     }
-
-    $category->update($data);
-
-    return redirect()->route('admin.shop-categories.index')->with('success', 'Category updated successfully!');
-}
 
     public function destroy(Category $category)
     {
@@ -93,7 +95,7 @@ class CategoryController extends Controller
 
         $category->delete();
 
-        return redirect()->route('admin.shop-categories.index')->with('success', 'Category deleted successfully!');
+        return redirect()->route('admin.preparation-categories.index')->with('success', 'Category deleted successfully!');
     }
 
     public function updateOrder(Request $request)

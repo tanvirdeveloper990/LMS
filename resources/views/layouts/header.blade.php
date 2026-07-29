@@ -6,6 +6,12 @@
  }
  @endphp
 
+@php
+    $courses = \App\Models\Category::where('status', 1)->where('type', 'course')->orderBy('serial')->get();
+    $preparations = \App\Models\Category::where('status', 1)->where('type', 'preparation')->orderBy('serial')->get();
+@endphp
+
+
 
   <!-- ================= NOTICE MARQUEE BAR ================= -->
   <div class="notice-bar">
@@ -33,14 +39,14 @@
         </button>
 
         <!-- logo -->
-        <a href="index.html" class="logo">
-          <img src="assets/img/logo/logo.png" alt="লোগো">
+        <a href="/" class="logo">
+          <img src="{{Storage::url($setting->header_logo)}}" alt="{{$setting->company_name}}">
         </a>
 
         <!-- desktop nav -->
         <nav class="main-nav d-none d-lg-flex">
           <ul>
-            <li><a href="index.html">হোম</a></li>
+            <li><a href="/">হোম</a></li>
             <li><a href="#">আমাদের সম্পর্কে</a></li>
             <li><a href="free-course.html">ফ্রি কোর্স</a></li>
 
@@ -49,37 +55,36 @@
               <a href="#">ক্যাটাগরিসমূহ<i class="bi bi-chevron-down"></i></a>
               <ul class="dropdown-panel">
 
+           
+
                 <li class="has-submenu">
                   <a href="#">শ্রেণিভিত্তিক কোর্স <i class="bi bi-chevron-right submenu-arrow"></i></a>
                   <ul class="submenu-panel">
-                    <li><a href="#">৫ম শ্রেণি</a></li>
-                    <li><a href="#">৬ষ্ঠ শ্রেণি</a></li>
-                    <li><a href="#">৭ম শ্রেণি</a></li>
-                    <li><a href="#">৮ম শ্রেণি</a></li>
-                    <li><a href="#">৯ম শ্রেণি</a></li>
-                    <li><a href="#">১০ম শ্রেণি</a></li>
+                    @foreach($courses as $course)
+                    <li><a href="#">{{$course->name}}</a></li>
+                    @endforeach
                   </ul>
                 </li>
 
                 <li class="has-submenu">
                   <a href="#">পরীক্ষা প্রস্তুতি <i class="bi bi-chevron-right submenu-arrow"></i></a>
                   <ul class="submenu-panel">
-                    <li><a href="#">প্রাথমিক বৃত্তি</a></li>
-                    <li><a href="#">জুনিয়র বৃত্তি</a></li>
-                    <li><a href="#">SSC প্রস্তুতি</a></li>
+                    @foreach($preparations as $preparation)
+                    <li><a href="#">{{$preparation->name}}</a></li>
+                    @endforeach
                   </ul>
                 </li>
 
               </ul>
             </li>
-            <li><a href="e-book.html">ই-বুক</a></li>
+            <li><a href="{{route('ebook')}}">ই-বুক</a></li>
             <li><a href="#">শপ</a></li>
           </ul>
         </nav>
 
         <!-- login/register (desktop) -->
         <div class="header-actions d-none d-lg-flex">
-          <a href="#" class="btn-auth"><i class="bi bi-person-circle"></i> লগ ইন / রেজিস্ট্রেশন</a>
+          <a href="{{route('login')}}" class="btn-auth"><i class="bi bi-person-circle"></i> লগ ইন / রেজিস্ট্রেশন</a>
         </div>
 
         <!-- spacer to keep logo centered on mobile -->
@@ -92,7 +97,7 @@
   <!-- ================= MOBILE OFFCANVAS SIDEBAR ================= -->
   <div class="offcanvas offcanvas-start mobile-sidebar" tabindex="-1" id="mobileSidebar">
     <div class="offcanvas-header">
-      <a href="index.html"><img src="assets/img/logo.png" alt="লোগো" class="sidebar-logo"></a>
+      <a href="/"><img src="{{Storage::url($setting->header_logo)}}" alt="{{$setting->company_name}}" class="sidebar-logo"></a>
       <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="বন্ধ করুন"></button>
     </div>
     <div class="offcanvas-body">
@@ -100,14 +105,7 @@
         <li><a href="index.html">হোম</a></li>
         <li><a href="#">আমাদের সম্পর্কে</a></li>
         <li><a href="free-course.html">ফ্রি কোর্স</a></li>
-        <!-- <li class="has-dropdown">
-          <button type="button" class="dropdown-trigger">ফ্রি কোর্স <i class="bi bi-chevron-down"></i></button>
-          <ul class="dropdown-panel-mobile">
-            <li><a href="#">লাইভ ক্লাস</a></li>
-            <li><a href="#">রেকর্ডেড ক্লাস</a></li>
-            <li><a href="#">ফ্রি মডেল টেস্ট</a></li>
-          </ul>
-        </li> -->
+       
         <li><a href="all-course.html">সকল কোর্স</a></li>
 
         <li class="has-dropdown">
@@ -118,12 +116,9 @@
               <button type="button" class="submenu-trigger">শ্রেণিভিত্তিক কোর্স <i
                   class="bi bi-chevron-down submenu-arrow-mobile"></i></button>
               <ul class="submenu-panel-mobile">
-                <li><a href="#">৫ম শ্রেণি</a></li>
-                <li><a href="#">৬ষ্ঠ শ্রেণি</a></li>
-                <li><a href="#">৭ম শ্রেণি</a></li>
-                <li><a href="#">৮ম শ্রেণি</a></li>
-                <li><a href="#">৯ম শ্রেণি</a></li>
-                <li><a href="#">১০ম শ্রেণি</a></li>
+                @foreach($courses as $course)
+                 <li><a href="#">{{$course->name}}</a></li>
+                @endforeach
               </ul>
             </li>
 
@@ -131,18 +126,18 @@
               <button type="button" class="submenu-trigger">পরীক্ষা প্রস্তুতি <i
                   class="bi bi-chevron-down submenu-arrow-mobile"></i></button>
               <ul class="submenu-panel-mobile">
-                <li><a href="#">প্রাথমিক বৃত্তি</a></li>
-                <li><a href="#">জুনিয়র বৃত্তি</a></li>
-                <li><a href="#">SSC প্রস্তুতি</a></li>
+                  @foreach($courses as $course)
+                    <li><a href="#">{{$course->name}}</a></li>
+                  @endforeach
               </ul>
             </li>
 
           </ul>
         </li>
 
-        <li><a href="e-book.html">ই-বুক</a></li>
+        <li><a href="{{route('ebook')}}">ই-বুক</a></li>
         <li><a href="#">শপ</a></li>
       </ul>
-      <a href="#" class="btn-auth btn-auth-mobile"><i class="bi bi-person-circle"></i> লগ ইন / রেজিস্ট্রেশন</a>
+      <a href="{{route('login')}}" class="btn-auth btn-auth-mobile"><i class="bi bi-person-circle"></i> লগ ইন / রেজিস্ট্রেশন</a>
     </div>
   </div>

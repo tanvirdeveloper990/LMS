@@ -9,9 +9,9 @@ use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 
-class CategoryController extends Controller
+class EbookCategoryController extends Controller
 {
-    protected $type = 'shop';
+    protected $type = 'ebook';
 
     public function __construct()
     {
@@ -26,15 +26,15 @@ class CategoryController extends Controller
         $categories = Category::where('type', $this->type)
             ->orderBy('serial')->orderBy('id')->paginate(10);
 
-        return view('admin.categories.shop-categories.index', compact('categories'));
+        return view('admin.categories.ebook-categories.index', compact('categories'));
     }
 
     public function create()
     {
-        return view('admin.categories.shop-categories.create');
+        return view('admin.categories.ebook-categories.create');
     }
 
-   public function store(Request $request)
+    public function store(Request $request)
     {
         $request->validate([
             'name' => 'required|unique:categories,name|string|max:255',
@@ -52,48 +52,48 @@ class CategoryController extends Controller
             'status' => $request->status ?? 1,
         ]);
 
-        return redirect()->route('admin.shop-categories.index')->with('success', 'Category created successfully!');
+        return redirect()->route('admin.ebook-categories.index')->with('success', 'Ebook category created successfully!');
     }
 
-    public function edit(Category $category)
+    public function edit(Category $ebook_category)
     {
-        return view('admin.categories.shop-categories.edit', compact('category'));
+        return view('admin.categories.ebook-categories.edit', ['category' => $ebook_category]);
     }
 
-   public function update(Request $request, Category $category)
-{
-    $request->validate([
-        'name'   => 'required|string|max:255|unique:categories,name,' . $category->id,
-        'status' => 'required|in:0,1',
-    ]);
-
-    $data = [
-        'name'   => $request->name,
-        'slug'   => Str::slug($request->name),
-        'status' => $request->status,
-    ];
-
-    if ($request->hasFile('image')) {
-        if ($category->image) {
-            Storage::disk('public')->delete($category->image);
-        }
-        $data['image'] = ImageHelper::uploadImage($request->file('image'));
-    }
-
-    $category->update($data);
-
-    return redirect()->route('admin.shop-categories.index')->with('success', 'Category updated successfully!');
-}
-
-    public function destroy(Category $category)
+    public function update(Request $request, Category $ebook_category)
     {
-        if ($category->image && Storage::disk('public')->exists($category->image)) {
-            Storage::disk('public')->delete($category->image);
+        $request->validate([
+            'name'   => 'required|string|max:255|unique:categories,name,' . $ebook_category->id,
+            'status' => 'required|in:0,1',
+        ]);
+
+        $data = [
+            'name'   => $request->name,
+            'slug'   => Str::slug($request->name),
+            'status' => $request->status,
+        ];
+
+        if ($request->hasFile('image')) {
+            if ($ebook_category->image) {
+                Storage::disk('public')->delete($ebook_category->image);
+            }
+            $data['image'] = ImageHelper::uploadImage($request->file('image'));
         }
 
-        $category->delete();
+        $ebook_category->update($data);
 
-        return redirect()->route('admin.shop-categories.index')->with('success', 'Category deleted successfully!');
+        return redirect()->route('admin.ebook-categories.index')->with('success', 'Ebook category updated successfully!');
+    }
+
+    public function destroy(Category $ebook_category)
+    {
+        if ($ebook_category->image && Storage::disk('public')->exists($ebook_category->image)) {
+            Storage::disk('public')->delete($ebook_category->image);
+        }
+
+        $ebook_category->delete();
+
+        return redirect()->route('admin.ebook-categories.index')->with('success', 'Ebook category deleted successfully!');
     }
 
     public function updateOrder(Request $request)

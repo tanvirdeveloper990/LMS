@@ -41,7 +41,6 @@ use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
-use Symfony\Contracts\Service\Attribute\Required;
 
 class WebsiteController extends Controller
 {
@@ -58,104 +57,22 @@ class WebsiteController extends Controller
     $review = CustomerReview::where('status', 1)->get();
     $showroom = Showroom::where('status', 1)->get();
     $details = Detail::first();
-    $sidebarCategories = Category::where('status', 1)->where('show_in_sidebar', 1)
-        ->orderBy('serial', 'asc')
-        ->limit(10)
-        ->get();
-    $popularCategories = Category::where('popular_category', 1)->where('status', 1)->orderBy('serial', 'asc')->get();
-    $popularSubCategories = SubCategory::where('popular_category', 1)->where('status', 1)->orderBy('serial', 'asc')->get();
-
-    $allPopularItems = $popularCategories->map(fn($c) => [
-        'id'    => $c->id,
-        'name'  => $c->name,
-        'image' => $c->image,
-        'type'  => 'category',
-        'url'   => route('products', ['category' => $c->id]),
-    ])->merge(
-        $popularSubCategories->map(fn($s) => [
-            'id'    => $s->id,
-            'name'  => $s->name,
-            'image' => $s->image,
-            'type'  => 'sub_category',
-            'url'   => route('products', ['sub_category' => $s->id]),
-        ])
-    );
-
+    $courses = Category::where('status', 1)->where('type', 'course')->orderBy('serial')->get();
+    $preparations = Category::where('status', 1)->where('type', 'preparation')->orderBy('serial')->get();
     $blogs = Blog::where('status', 1)->get();
-    return view('frontend.index', compact('details','showroom', 'blogs', 'subCategories', 'allPopularItems', 'popularCategories', 'popularSubCategories', 'sidebarCategories', 'setting', 'categories', 'is_new', 'is_featured', 'allProducts', 'banner', 'review'));
+    return view('frontend.index', compact('details','showroom', 'blogs', 'subCategories',  'setting', 'categories', 'is_new', 'is_featured', 'allProducts', 'banner', 'review','preparations','courses'));
 }
 
 
-    public function categorySizes(Request $request)
+  
+    public function ebook()
     {
-        $type = $request->type;
-        $id   = $request->id;
-
-        $query = Product::where('status', 1);
-
-        if ($type === 'sub_category') {
-            $query->where('sub_category_id', $id);
-        } else {
-            $category = Category::with('subCategories')->find($id);
-            if (!$category) return response()->json([]);
-            $subCategoryIds = $category->subCategories->pluck('id')->toArray();
-            $query->where(function ($q) use ($id, $subCategoryIds) {
-                $q->where('category_id', $id)
-                    ->orWhereIn('sub_category_id', $subCategoryIds);
-            });
-        }
-
-        $productIds = $query->pluck('id');
-
-        $sizes = \App\Models\Size::whereHas('variants', function ($q) use ($productIds) {
-            $q->whereIn('product_id', $productIds);
-        })->select('id', 'name')->distinct()->get();
-
-        return response()->json($sizes);
+        $setting = Setting::first();
+        $banner = Bannar::where('status', 1)->get();
+        $ebookcategories = Category::where('status', 1)->where('type', 'ebook')->orderBy('serial')->get();
+        return view('frontend.ebook', compact('setting','banner','ebookcategories'));
     }
 
-    public function categoryProductsBySize(Request $request)
-    {
-        $type    = $request->type;
-        $id      = $request->id;
-        $sizeIds = $request->size_ids ?? [];
-
-        $query = Product::where('status', 1);
-
-        if ($type === 'sub_category') {
-            $query->where('sub_category_id', $id);
-        } else {
-            $category = Category::with('subCategories')->find($id);
-            if (!$category) return response()->json([]);
-            $subCategoryIds = $category->subCategories->pluck('id')->toArray();
-            $query->where(function ($q) use ($id, $subCategoryIds) {
-                $q->where('category_id', $id)
-                    ->orWhereIn('sub_category_id', $subCategoryIds);
-            });
-        }
-
-        if (!empty($sizeIds)) {
-            $query->whereHas('variants', function ($q) use ($sizeIds) {
-                $q->whereIn('size_id', $sizeIds);
-            });
-        }
-
-        $products = $query->latest()->get();
-
-        $data = $products->map(function ($p) {
-            return [
-                'id'            => $p->id,
-                'name'          => $p->name,
-                'slug'          => $p->slug,
-                'regular_price' => $p->regular_price,
-                'sale_price'    => $p->sale_price,
-                'image'         => $p->featured_image_1 ? Storage::url($p->featured_image_1) : null,
-                'url'           => route('product.single', $p->slug),
-            ];
-        });
-
-        return response()->json($data);
-    }
 
 
 
@@ -400,6 +317,8 @@ public function showroomDetail($id)
 
         return view('frontend.brands', compact('setting', 'brands'));
     }
+
+
 
 
     public function checkout()
