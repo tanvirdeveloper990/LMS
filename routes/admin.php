@@ -62,7 +62,7 @@ Route::prefix('admin')
         // Route::get('/dashboard', function () {
         //     return view('admin.dashboard');
         // })->name('dashboard');
-        
+
         Route::post('/admin/upload-image', function (\Illuminate\Http\Request $request) {
             $path = $request->file('image')->store('summernote', 'public');
             return response()->json(['url' => Storage::url($path)]);
@@ -75,14 +75,14 @@ Route::prefix('admin')
         Route::put('/change-password', [AdminProfileController::class, 'updatePassword'])->name('change.password.update');
 
         Route::post('/currency-update', [AdminProfileController::class, 'updateCurrency'])->name('currency.update');
-        
-        
-        
+
+
+
         Route::get('/check-email', function(\Illuminate\Http\Request $request) {
             $exists = \App\Models\User::where('email', $request->email)->exists();
             return response()->json(['exists' => $exists]);
         })->name('check-email');
-        
+
         Route::get('/check-phone', function(\Illuminate\Http\Request $request) {
             $exists = \App\Models\User::where('phone', $request->phone)->exists();
             return response()->json(['exists' => $exists]);
@@ -143,7 +143,7 @@ Route::prefix('admin')
         Route::post('bkash/{id}', [WebController::class, 'bkash'])->name('bkash.update');
         Route::post('nagad/{id}', [WebController::class, 'nagad'])->name('nagad.update');
         Route::post('sslcz/{id}', [WebController::class, 'sslcz'])->name('sslcz.update');
-        // CURIORE 
+        // CURIORE
         Route::get('courier', [WebController::class, 'curiore'])->name('courier.setup');
         Route::post('stredfast/{id}', [WebController::class, 'stredfast'])->name('stredfast.update');
         Route::post('pathau/{id}', [WebController::class, 'pathau'])->name('pathau.update');
@@ -156,14 +156,14 @@ Route::prefix('admin')
         Route::resource('shiping', ShipingController::class);
 
         // <<<<<--Orders-->>>>>
-         
-         
+
+
         Route::get('orders/create',      [OrderController::class, 'create'])->name('orders-create');
         Route::post('orders',            [OrderController::class, 'store'])->name('orders.store');
         Route::get('orders/{id}/edit',   [OrderController::class, 'edit'])->name('orders.edit');
         Route::put('orders/{id}',        [OrderController::class, 'update'])->name('orders.update');
-         
-         
+
+
         Route::get('all-orders', [OrderController::class, 'allOrders'])->name('all-orders');
         Route::get('orders/{id}', [OrderController::class, 'show'])->name('orders.show');
         Route::post('/orders/{order}/update-status', [OrderController::class, 'updateStatus'])->name('orders.updateStatus');
@@ -175,14 +175,14 @@ Route::prefix('admin')
         Route::get('courier-orders', [OrderController::class, 'courierOrders'])->name('courier-orders');
         Route::get('complete-orders', [OrderController::class, 'completeOrders'])->name('complete-orders');
         Route::get('cancelled-orders', [OrderController::class, 'cancelledOrders'])->name('cancelled-orders');
-        
-       
 
-        
+
+
+
         // routes/web.php or admin routes group
         Route::get('/orders/send-pathao/{id}', [OrderController::class, 'sendToPathao'])->name('orders.sendPathao');
-        
-        
+
+
         Route::get('/pathao-stores', [OrderController::class, 'getPathaoStores']);
 
 
@@ -208,12 +208,12 @@ Route::prefix('admin')
 
 
 
-       
+
        Route::get('stock-report', [OrderController::class,'stock_report'])->name('stock_report');
        Route::get('order-report', [OrderController::class,'order_report'])->name('order_report');
-   
 
-        
+
+
         // <<<<<--Affiliate-->>>>>
         Route::resource('all-users',AffiliatesController::class);
 
@@ -222,7 +222,7 @@ Route::prefix('admin')
         Route::get('sellers-withdrawal', [VendorsController::class, 'sellersWithdrawal'])->name('sellers-withdrawal');
         Route::post('sellers-withdrawal/{id}/status', [VendorsController::class, 'updateStatus'])->name('sellers-withdrawal.updateStatus');
 
-        
+
         // product commision
         Route::resource('product-commission',ProductCommisionController::class);
 
@@ -246,8 +246,8 @@ Route::prefix('admin')
         Route::resource('legal-policy',LegalPolicyController::class);
         Route::resource('navigation',NavigationController::class);
         Route::resource('showroom',ShowroomController::class);
-        
-        
+
+
         Route::resource('levels',LevelSystemController::class);
         Route::get('levels-report',[LevelSystemController::class,'report'])->name('level.report');
         Route::resource('levels-withdrawal',LevelSystemWithdrawalController::class);
@@ -256,9 +256,10 @@ Route::prefix('admin')
 
 
 
-        Route::resource('abouts',AboutController::class);
+       Route::get('about', [App\Http\Controllers\Admin\AboutController::class, 'index'])->name('about.index');
+        Route::put('about/{id}', [App\Http\Controllers\Admin\AboutController::class, 'update'])->name('about.update');
         Route::resource('ebook-library',EbookLibraryController::class);
         Route::resource('faqs',FaqController::class);
-       
+
 
     });
