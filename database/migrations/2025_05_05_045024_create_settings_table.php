@@ -23,6 +23,7 @@ return new class extends Migration
             $table->string('phone_two')->nullable();
             $table->string('email_one')->nullable();
             $table->string('email_two')->nullable();
+            $table->string('working')->nullable();
             $table->longText('google_maps')->nullable();
             $table->string('facebook')->nullable();
             $table->string('twitter')->nullable();
@@ -54,6 +55,7 @@ return new class extends Migration
             $table->text('checkout_offer_text')->nullable();
             $table->string('checkout_offer_status')->nullable();
             $table->string('checkout_review_video')->nullable();
+
             $table->timestamps();
         });
     }

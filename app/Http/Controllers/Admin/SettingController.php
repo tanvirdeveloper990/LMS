@@ -28,14 +28,14 @@ class SettingController extends Controller
         $setting = $data; // marquee section uses $setting variable
         return view('admin.settings.index', compact('data', 'setting'));
     }
- 
+
     /**
      * Update the specified resource in storage.
      */
     public function update(Request $request, string $id)
     {
         $data = Setting::findOrFail($id);
- 
+
         // ── Image uploads ──────────────────────────────────────────
         $header_logo = $request->hasFile('header_logo') ? ImageHelper::uploadImage($request->file('header_logo')) : null;
         $footer_logo = $request->hasFile('footer_logo') ? ImageHelper::uploadImage($request->file('footer_logo')) : null;
@@ -43,7 +43,8 @@ class SettingController extends Controller
         $meta_image  = $request->hasFile('meta_image')  ? ImageHelper::uploadImage($request->file('meta_image'))  : null;
         $mobile_logo = $request->hasFile('mobile_logo') ? ImageHelper::uploadImage($request->file('mobile_logo')) : null;
         $certificate = $request->hasFile('certificate') ? ImageHelper::uploadImage($request->file('certificate')) : null;
- 
+        $payment_image = $request->hasFile('payment_image') ? ImageHelper::uploadImage($request->file('payment_image')) : null;
+
         // ── Delete old images if new ones uploaded ─────────────────
         if ($request->hasFile('header_logo') && $data->header_logo) {
             Storage::disk('public')->delete($data->header_logo);
@@ -63,26 +64,30 @@ class SettingController extends Controller
         if ($request->hasFile('certificate') && $data->certificate) {
             Storage::disk('public')->delete($data->certificate);
         }
- 
+        if ($request->hasFile('payment_image') && $data->payment_image) {
+            Storage::disk('public')->delete($data->payment_image);
+        }
+
         // ── Build update array ─────────────────────────────────────
         $input = $request->except([
             '_token', '_method',
             'header_logo', 'footer_logo', 'favicon',
-            'meta_image', 'mobile_logo', 'certificate',
+            'meta_image', 'mobile_logo', 'certificate','payment_image',
         ]);
- 
+
         if ($header_logo) $input['header_logo'] = $header_logo;
         if ($footer_logo) $input['footer_logo'] = $footer_logo;
         if ($favicon)     $input['favicon']     = $favicon;
         if ($meta_image)  $input['meta_image']  = $meta_image;
         if ($mobile_logo) $input['mobile_logo'] = $mobile_logo;
         if ($certificate) $input['certificate'] = $certificate;
- 
+        if ($payment_image) $input['payment_image'] = $payment_image;
+
         $data->update($input);
- 
+
         return redirect()->back()->with('success', 'Information updated successfully.');
     }
- 
+
     /**
      * Remove the specified resource from storage.
      */
