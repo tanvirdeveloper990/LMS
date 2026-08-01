@@ -14367,6 +14367,7 @@ namespace App\Models {
     /**
      * App\Models\Setting
      *
+     * @property string|null $payment_image
      * @property string|null $working
      * @property string|null $blogs_description
      * @property string|null $blogs_title
@@ -14501,6 +14502,7 @@ namespace App\Models {
      * @method static \Illuminate\Database\Eloquent\Builder<Setting>|Setting whereBlogsTitle($value)
      * @method static \Illuminate\Database\Eloquent\Builder<Setting>|Setting whereBlogsDescription($value)
      * @method static \Illuminate\Database\Eloquent\Builder<Setting>|Setting whereWorking($value)
+     * @method static \Illuminate\Database\Eloquent\Builder<Setting>|Setting wherePaymentImage($value)
      * @method static \Illuminate\Database\Eloquent\Builder<Setting>|Setting newModelQuery()
      * @method static \Illuminate\Database\Eloquent\Builder<Setting>|Setting newQuery()
      * @method static \Illuminate\Database\Eloquent\Builder<Setting>|Setting query()
